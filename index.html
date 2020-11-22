@@ -72,7 +72,9 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="register.html">Register</a>
+                                            <a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#RegisterForm">
+                                                Register
+                                            </a>
                                         </li>
                                         <!-- Login-Register End Here -->
                                     </ul>
@@ -123,6 +125,53 @@
                                 </div>
                             </div>
                             <!-- Model Login End -->
+                            <!-- Model Register Begin -->
+                            <div class="modal" id="RegisterForm">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <!-- Register Form s-->
+                                        <form action="#">
+                                            <div class="login-form">
+                                                <h4 class="login-title">Register</h4>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12 mb-20">
+                                                        <label>First Name</label>
+                                                        <input class="mb-0" type="text" placeholder="First Name">
+                                                    </div>
+                                                    <div class="col-md-6 col-12 mb-20">
+                                                        <label>Last Name</label>
+                                                        <input class="mb-0" type="text" placeholder="Last Name">
+                                                    </div>
+                                                    <div class="col-md-12 mb-20">
+                                                        <label>Email Address*</label>
+                                                        <input class="mb-0" type="email" placeholder="Email Address">
+                                                    </div>
+                                                    <div class="col-md-6 mb-20">
+                                                        <label>Password</label>
+                                                        <input class="mb-0" type="password" placeholder="Password">
+                                                    </div>
+                                                    <div class="col-md-6 mb-20">
+                                                        <label>Confirm Password</label>
+                                                        <input class="mb-0" type="password" placeholder="Confirm Password">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <button class="register-button mt-0">Register</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- Register form end -->
+                                    </div>        
+                                  </div>
+                                </div>
+                            </div>
+                            <!-- Model Register End -->
                         </div>
                     </div>
                 </div>
