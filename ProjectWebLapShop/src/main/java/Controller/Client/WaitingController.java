@@ -31,10 +31,7 @@ public class WaitingController extends HttpServlet {
 
         if(session != null && session.getAttribute("taiKhoan") != null) {
 
-
-
             TaiKhoan taiKhoan= (TaiKhoan) session.getAttribute("taiKhoan");
-            request.setAttribute("tenTK", taiKhoan.getTenTK());
 
             if(taiKhoan.getPhanQuyen()==2) {
                 response.sendRedirect(request.getContextPath()+"/WelcomeAdminController");

@@ -6,7 +6,7 @@ import Util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
-import java.util.List;
+import java.util.*;
 
 public class YeuThichDaoImpl implements YeuThichDao {
     private static SessionFactory factory;
@@ -53,14 +53,11 @@ public class YeuThichDaoImpl implements YeuThichDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<YeuThich> yeuThichList = new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
-//            String hql = "FROM YeuThich yt  where yt.primaryKey.taiKhoan.maTK = :maTK";
-//            Query query = session.createQuery(hql).setParameter("maTK",MaTK);
-//            List<YeuThich> listResult = query.list();
-            List<YeuThich> yeuThichList = ( List<YeuThich> ) session.createCriteria(YeuThich.class)
+            yeuThichList = ( List<YeuThich> ) session.createCriteria(YeuThich.class)
                   .add(Restrictions.eq("primaryKey.taiKhoan.maTK", MaTK)).list();
             tx.commit();
 
@@ -71,9 +68,8 @@ public class YeuThichDaoImpl implements YeuThichDao {
             e.printStackTrace();
         }finally {
             session.close();
-
         }
-        return  null;
+        return  yeuThichList;
     }
 
     @Override
@@ -81,14 +77,14 @@ public class YeuThichDaoImpl implements YeuThichDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<YeuThich> yeuThichList = new ArrayList<>();
         try{
             tx = session.beginTransaction();
             Criteria crit = session.createCriteria(YeuThich.class);
 
-            List yeuThich = crit.list();
+             yeuThichList = crit.list();
             tx.commit();
-            return  yeuThich;
+            return  yeuThichList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -97,6 +93,6 @@ public class YeuThichDaoImpl implements YeuThichDao {
             session.close();
 
         }
-        return  null;
+        return  yeuThichList;
     }
 }

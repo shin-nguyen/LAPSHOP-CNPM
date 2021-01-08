@@ -5,6 +5,7 @@
   Time: 10:12 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
@@ -68,7 +69,7 @@
             <div class="container">
                 <div class="breadcrumb-content">
                     <ul>
-                        <li><a href="${url}/index.jsp">Home</a></li>
+                        <li><a href="${url}/home.jsp">Home</a></li>
                         <li class="active">Contact</li>
                     </ul>
                 </div>
@@ -89,56 +90,65 @@
                             <div class="single-contact-block">
                                 <h4><i class="fa fa-phone"></i> Phone</h4>
                                 <p>Mobile: (+84)918948074 </p>
-                                <p>Hotline: 1009 678 456</p>
+
                             </div>
                             <div class="single-contact-block last-child">
                                 <h4><i class="fa fa-envelope-o"></i> Email</h4>
-                                <p>yourmail@domain.com</p>
-                                <p>support@hastech.company</p>
+                                <p>tangyucheng2000@domain.com</p>
+                                <p>18110365@hcmute.edu.vn</p>
                             </div>
                         </div>
                     </div>
+
+
+
                     <div class="col-lg-6 col-md-12 order-2 order-lg-1">
                         <div class="contact-form-content pt-sm-55 pt-xs-55">
                             <h3 class="contact-page-title">Tell Us Your Message</h3>
                             <div class="contact-form">
-                                <form  id="contact-form" action="${pageContext.request.contextPath}/HopThuAddController" method="post">
+                                <form  action="${pageContext.request.contextPath}/HopThuAddController" method="get">
 
-                                    <c:if test="${not empty submitDone}">
-                                        <script>alert("Form submitted");
-                                        </script></c:if>
+                                    <c:if test="${not empty done}">
+                                        <script>
+                                            window.addEventListener("load",function(){
+                                                alert("${done}");
+                                            })
+                                        </script>
+                                    </c:if>
 
                                     <div class="form-group">
                                         <label>Your Name <span class="required">*</span></label>
-                                        <input type="text" name="customerName" id="customername" required>
+                                        <input type="text" value ="${name}" name="name" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Your Email <span class="required">*</span></label>
-                                        <input type="email" name="customerEmail" id="customerEmail" required>
+                                        <label>Your Email <span class="required">* <label style="color: #e50606" ><c:out value="${emailError}"/></label></span></label>
+                                        <input type="email" value ="${email}" name="email"  required>
                                     </div>
                                     <div class="form-group">
                                         <label>Subject</label>
-                                        <input type="text" name="contactSubject" id="contactSubject">
+                                        <input type="text" value ="${subject}" name="subject"  required>
                                     </div>
                                     <div class="form-group mb-30">
                                         <label>Your Message</label>
-                                        <textarea name="contactMessage" id="contactMessage" ></textarea>
+                                        <textarea name="message" id="contactMessage" required></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" value="submit" id="submit" class="li-btn-3" name="submit">send</button>
+                                        <button type="submit" id="submit" class="li-btn-3" >Send</button>
                                     </div>
                                 </form>
                             </div>
-                            <p class="form-messege"></p>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- Contact Main Page Area End Here -->
     <!-- Footer -->
     <jsp:include page="/Client/footer.jsp" />
-        </div>
+    </div>
+
         <!-- Body Wrapper End Here -->
         <!-- jQuery-V1.12.4 -->
         <script src="${url}/js/vendor/jquery-1.12.4.min.js"></script>

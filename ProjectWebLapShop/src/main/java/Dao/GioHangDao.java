@@ -12,9 +12,12 @@ public interface GioHangDao {
     void delete(GioHang gioHang);
 
     GioHang get(int MaGioHang);
+    List<GioHang> getByTinhTrang(int tinhTrang);
 
-    GioHang getByTinhTrang(String tinhTrang,int maTK);
+    GioHang getByTinhTrang(int tinhTrang,int maTK);
+
+    List<GioHang> getAllne();
     List<GioHang> getAll();
-    Integer getMaxGioHang();
+
     List<GioHang> searchByMaTK(int MaTK);
 }

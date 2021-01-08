@@ -14,9 +14,10 @@ public interface TaiKhoanDao {
 
     TaiKhoan get(int MaTK);
     TaiKhoan getTenTK(String tenTK);
+    TaiKhoan getTKByEmail(String email);
 
     List<TaiKhoan> getAll();
-
+    List<TaiKhoan> getTKByPQ(int tenPQ);
 
 
     boolean checkExistEmail(String email);

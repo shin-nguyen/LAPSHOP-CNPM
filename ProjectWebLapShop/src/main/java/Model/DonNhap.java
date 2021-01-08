@@ -10,47 +10,68 @@ import java.util.Date;
 @Table(name = "DonNhap")
 public class DonNhap {
     private int MaDonNhap;
-
-    private Date NgayGiaoDich;
-
-    private String ViTri;
+    private Date ThoiGian;
+    private  TaiKhoan TaiKhoan;
+    private  int SoLuong;
+    private HangHoa HangHoa;
 
     public  DonNhap(){
 
     }
 
-    public DonNhap(int maDonNhap, Date ngayGiaoDich, String viTriKho) {
+    public DonNhap(int maDonNhap, Date thoiGian, int soLuong,HangHoa hangHoa, TaiKhoan taiKhoan) {
         super();
         this.MaDonNhap = maDonNhap;
-        this.NgayGiaoDich = ngayGiaoDich;
-        this.ViTri = viTriKho;
+        this.ThoiGian = thoiGian;
+        this.TaiKhoan =  taiKhoan;
+        this.HangHoa = hangHoa;
+        this.SoLuong = soLuong;
     }
-    @Column(name = "NgayGiaoDich")
+    @Column(name = "ThoiGian",nullable = false)
     @Temporal(TemporalType.DATE)
-    public Date getNgayGiaoDich() {
-        return NgayGiaoDich;
+    public Date getThoiGian() {
+        return ThoiGian;
     }
+    public void setThoiGian(Date thoiGian) {
+        ThoiGian = thoiGian;
+    }
+
     @Id
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     @Column (name = "MaDonNhap", nullable = false)
     public int getMaDonNhap() {
         return MaDonNhap;
     }
-
-    @Column(name = "ViTri", nullable = false)
-    public String getViTriKho() {
-        return ViTri;
-    }
-
     public void setMaDonNhap(int maDonNhap) {
         MaDonNhap = maDonNhap;
     }
 
-    public void setNgayGiaoDich(Date ngayGiaoDich) {
-        NgayGiaoDich = ngayGiaoDich;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "MaTK", nullable = false,referencedColumnName = "MaTK")
+    public Model.TaiKhoan getTaiKhoan() {
+        return TaiKhoan;
     }
 
+    public void setTaiKhoan(Model.TaiKhoan taiKhoan) {
+        TaiKhoan = taiKhoan;
+    }
 
-    public void setViTriKho(String viTri) {
-        ViTri = viTri;
+    @Column (name = "SoLuong", nullable = false)
+    public int getSoLuong() {
+        return SoLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        SoLuong = soLuong;
+    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "MaSP", nullable = false,referencedColumnName = "MaSP")
+    public Model.HangHoa getHangHoa() {
+        return HangHoa;
+    }
+
+    public void setHangHoa(Model.HangHoa hangHoa) {
+        HangHoa = hangHoa;
     }
 }

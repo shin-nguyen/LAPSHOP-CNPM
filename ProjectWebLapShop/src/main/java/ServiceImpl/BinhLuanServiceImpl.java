@@ -16,14 +16,9 @@ public class BinhLuanServiceImpl implements BinhLuanService {
 
     @Override
     public void edit(BinhLuan binhLuan) {
-        BinhLuan binhLuanCu = binhLuanDao.getByMaSPVSMaTK(binhLuan.getHangHoa().getMaSP(), binhLuan.getTaiKhoan().getMaTK());
 
-        binhLuanCu.setThoiGian(binhLuan.getThoiGian());
-        binhLuanCu.setSao(binhLuan.getSao());
-        binhLuanCu.setTieuDe(binhLuan.getTieuDe());
-        binhLuanCu.setNoiDung(binhLuan.getNoiDung());
 
-        binhLuanDao.edit(binhLuanCu);
+        binhLuanDao.edit(binhLuan);
     }
 
     @Override
@@ -41,6 +36,16 @@ public class BinhLuanServiceImpl implements BinhLuanService {
     @Override
     public List<BinhLuan> getAll() {
         return  binhLuanDao.getAll();
+    }
+
+    @Override
+    public Boolean checkTonTai(BinhLuan binhLuan) {
+        return binhLuanDao.checkTonTai(binhLuan);
+    }
+
+    @Override
+    public Integer getCountBLByMaSP(int MaSP) {
+        return binhLuanDao.getCountBLByMaSP(MaSP);
     }
 
     @Override

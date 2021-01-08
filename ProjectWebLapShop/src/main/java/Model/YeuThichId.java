@@ -12,7 +12,7 @@ import java.util.Objects;
 public class YeuThichId implements Serializable {
     private TaiKhoan taiKhoan;
     private HangHoa hangHoa;
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
 
     public TaiKhoan getTaiKhoan() {
         return taiKhoan;
@@ -22,7 +22,7 @@ public class YeuThichId implements Serializable {
         this.taiKhoan = taiKhoan;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
 
     public HangHoa getHangHoa() {
         return hangHoa;

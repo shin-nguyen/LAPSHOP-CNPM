@@ -17,13 +17,13 @@ public  class GioHang {
     private Date ThoiGian;
     private String MoTa;
     private String DiaChi;
-    private String TrangThai;
+    private int TrangThai;
     private  TaiKhoan taiKhoan;
 
     public GioHang(){
 
     }
-    public GioHang(int maGioHang, KhuyenMai khuyenMai, int tongTien, Date thoiGian, String moTa, String diaChi, String trangThai, TaiKhoan taiKhoan){
+    public GioHang(int maGioHang, KhuyenMai khuyenMai, int tongTien, Date thoiGian, String moTa, String diaChi, int trangThai, TaiKhoan taiKhoan){
         super();
         this.MaGioHang = maGioHang;
         this.KhuyenMai =  khuyenMai;
@@ -35,7 +35,7 @@ public  class GioHang {
         this.taiKhoan =  taiKhoan;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "MaKhuyenMai", nullable = true,referencedColumnName = "MaKhuyenMai")
     public KhuyenMai getKhuyenMai() {
         return KhuyenMai;
@@ -46,7 +46,7 @@ public  class GioHang {
 
 
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    @JoinColumn(name = "MaTK", nullable = true, referencedColumnName = "MaTK")
+    @JoinColumn(name = "MaTK", nullable = false, referencedColumnName = "MaTK")
     public TaiKhoan getTaiKhoan() {
         return taiKhoan;
     }
@@ -55,9 +55,7 @@ public  class GioHang {
     }
 
 
-
-
-    @Column (name = "TongTien", nullable = true)
+    @Column (name = "TongTien", nullable = false)
     public void setTongTien(int tongTien) {
         TongTien = tongTien;
     }
@@ -65,7 +63,6 @@ public  class GioHang {
     public int getTongTien() {
         return TongTien;
     }
-
 
     @Column (name = "DiaChi", nullable = true)
 
@@ -78,7 +75,7 @@ public  class GioHang {
     }
 
 
-    @Column (name = "ThoiGian", nullable = true)
+    @Column (name = "ThoiGian", nullable = false)
     public Date getThoiGian() {
         return ThoiGian;
     }
@@ -88,7 +85,8 @@ public  class GioHang {
 
 
     @Id
-    @Column (name = "MaGioHang", nullable = true)
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @Column (name = "MaGioHang", nullable = false)
     public int getMaGioHang() {
         return MaGioHang;
     }
@@ -98,11 +96,11 @@ public  class GioHang {
 
 
 
-    @Column (name = "TrangThai", nullable = true)
-    public String getTrangThai() {
+    @Column (name = "trangThai", nullable = false)
+    public int getTrangThai() {
         return TrangThai;
     }
-    public void setTrangThai(String trangThai) {
+    public void setTrangThai(int trangThai) {
         TrangThai = trangThai;
     }
 
@@ -118,20 +116,13 @@ public  class GioHang {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getMaGioHang(),getDiaChi(),getKhuyenMai(),getMoTa(),getTaiKhoan().getMaTK(),getThoiGian(),getTongTien(),getTrangThai());
+        return Objects.hash(getMaGioHang());
     }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof GioHang)) return false;
         GioHang that = (GioHang) o;
-        return Objects.equals(getMaGioHang(), that.getMaGioHang())&&
-                Objects.equals(getDiaChi(), that.getDiaChi()) &&
-                Objects.equals(getMoTa(), that.getMoTa()) &&
-                Objects.equals(getKhuyenMai().getMaKhuyenMai(), that.getKhuyenMai().getMaKhuyenMai()) &&
-                Objects.equals(getTaiKhoan().getMaTK(), that.getTaiKhoan().getMaTK()) &&
-                Objects.equals(getThoiGian(), that.getThoiGian()) &&
-                Objects.equals(getTongTien(), that.getTongTien()) &&
-                Objects.equals(getTrangThai(), that.getTrangThai());
+        return Objects.equals(getMaGioHang(), that.getMaGioHang());
     }
 }

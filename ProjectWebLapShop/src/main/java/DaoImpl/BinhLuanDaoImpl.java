@@ -2,9 +2,14 @@ package DaoImpl;
 
 import Dao.BinhLuanDao;
 import Model.BinhLuan;
+import Model.DonNhap;
+import Model.HangHoa;
 import Util.HibernateUtil;
 import org.hibernate.*;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BinhLuanDaoImpl implements BinhLuanDao {
@@ -72,17 +77,17 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<BinhLuan> binhLuanList =  new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
             String hql = "FROM BinhLuan bl  where bl.primaryKey.taiKhoan.maTK = :maTK";
             Query query = session.createQuery(hql).setParameter("maTK",maTK);
-            List<BinhLuan> listResult = query.list();
+            binhLuanList = query.list();
 
             tx.commit();
 
-            return listResult;
+            return binhLuanList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -91,7 +96,7 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
             session.close();
 
         }
-        return  null;
+        return  binhLuanList;
     }
 
     @Override
@@ -99,17 +104,18 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
+        List<BinhLuan> binhLuanList =  new ArrayList<>();
 
         try{
             tx = session.beginTransaction();
 
             String hql = "FROM BinhLuan bl  where bl.primaryKey.hangHoa.maSP = :maSP";
             Query query = session.createQuery(hql).setParameter("maSP",maSP);
-            List<BinhLuan> listResult = query.list();
+            binhLuanList = query.list();
 
             tx.commit();
 
-            return listResult;
+            return binhLuanList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -118,7 +124,7 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
             session.close();
 
         }
-        return  null;
+        return  binhLuanList;
     }
 
     @Override
@@ -126,13 +132,14 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
+        BinhLuan binhLuan =new BinhLuan();
 
         try{
             tx = session.beginTransaction();
 
             String hql = "FROM BinhLuan bl  where bl.primaryKey.hangHoa.maSP = :maSP and bl.primaryKey.taiKhoan.maTK = :maTK";
             Query query = session.createQuery(hql).setParameter("maSP",maSP).setParameter("maTK",maTK);
-            BinhLuan binhLuan =(BinhLuan) query.uniqueResult();
+            binhLuan=(BinhLuan) query.uniqueResult();
 
             tx.commit();
 
@@ -145,7 +152,62 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
             session.close();
 
         }
-        return  null;
+        return  binhLuan;
+    }
+
+    @Override
+    public Boolean checkTonTai(BinhLuan binhLuan) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        BinhLuan binhLuanMoi = new BinhLuan();
+        try{
+            tx = session.beginTransaction();
+
+            String hql = "FROM BinhLuan bl  where bl.primaryKey.hangHoa.maSP = :maSP and bl.primaryKey.taiKhoan.maTK = :maTK";
+            Query query = session.createQuery(hql).setParameter("maSP",binhLuan.getHangHoa().getMaSP()).setParameter("maTK",binhLuan.getTaiKhoan().getMaTK());
+            binhLuanMoi  =(BinhLuan) query.uniqueResult();
+
+            tx.commit();
+
+            if (binhLuanMoi!=null)
+                return true;
+            else
+                return  false;
+
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+
+        }
+        return  false;
+    }
+
+    @Override
+    public Integer getCountBLByMaSP(int MaSP) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+
+        try {
+            tx = session.beginTransaction();
+            Criteria cr = session.createCriteria(BinhLuan.class);
+            cr.add(Restrictions.eq("primaryKey.hangHoa.maSP", MaSP));
+            cr.setProjection(Projections.rowCount());
+            Integer count = ((Long) cr.uniqueResult()).intValue();
+            tx.commit();
+
+            return count;
+        } catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return  0;
     }
 
 
@@ -154,13 +216,13 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<BinhLuan> binhLuanList = new ArrayList<>();
         try {
             tx = session.beginTransaction();
             Criteria cr = session.createCriteria(BinhLuan.class);
-            List results = cr.list();
+            binhLuanList = cr.list();
             tx.commit();
-            return  results;
+            return  binhLuanList;
         } catch (HibernateException e) {
             if (tx != null)
                 tx.rollback();
@@ -168,6 +230,6 @@ public class BinhLuanDaoImpl implements BinhLuanDao {
         } finally {
             session.close();
         }
-        return  null;
+        return  binhLuanList;
     }
 }

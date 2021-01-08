@@ -15,19 +15,14 @@ import java.util.List;
 @WebServlet( "/HangHoaTimKiemBangTen")
 public class HangHoaTimKiemBangTen extends HttpServlet {
     HangHoaService hangHoaService=new HangHoaServiceImpl();
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
+        String tenSP=request.getParameter("tenSP");
+        request.setAttribute("tenSPTimKiem",tenSP);
+        List<HangHoa> hangHoaList ;
+        hangHoaList= hangHoaService.timKiemBangTen(tenSP);
+        request.setAttribute("hangHoaList", hangHoaList);
+        request.getRequestDispatcher("/Client/SearchProduct.jsp").forward(request, response);
     }
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String tenSP=request.getParameter("tenSP");
-        List<HangHoa> timKiemSPBangTen = hangHoaService.timKiemBangTen(tenSP);
-        request.setAttribute("timKiemSPBangTen", timKiemSPBangTen);
-        request.getRequestDispatcher("/view/client/view/product-seach-by-name.jsp").forward(request, response);
-    }
+
 }

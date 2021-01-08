@@ -10,6 +10,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HangHoaImageDaoImpl implements HangHoaImageDao {
@@ -73,15 +74,37 @@ public class HangHoaImageDaoImpl implements HangHoaImageDao {
     }
 
     @Override
+    public void deleteAll(int maSP) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try{
+            tx = session.beginTransaction();
+
+            String hql = "delete from HangHoaImage where maSP= :maSP";
+            session.createQuery(hql).setParameter("maSP",maSP).executeUpdate();
+
+            tx.commit();
+
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+
+        }
+    }
+
+    @Override
     public List<HangHoaImage> getAll() {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<HangHoaImage> hangHoaImages = new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
-            List<HangHoaImage> hangHoaImages = session.createCriteria(HangHoaImage.class).list();
+            hangHoaImages= session.createCriteria(HangHoaImage.class).list();
             tx.commit();
 
             return hangHoaImages;
@@ -93,7 +116,7 @@ public class HangHoaImageDaoImpl implements HangHoaImageDao {
             session.close();
 
         }
-        return  null;
+        return  hangHoaImages;
     }
 
     @Override
@@ -101,11 +124,11 @@ public class HangHoaImageDaoImpl implements HangHoaImageDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<HangHoaImage> hangHoaImages = new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
-            List<HangHoaImage> hangHoaImages = (List<HangHoaImage>)session.createCriteria(HangHoaImage.class)
+            hangHoaImages = (List<HangHoaImage>)session.createCriteria(HangHoaImage.class)
                     .add(Restrictions.eq("maSP", MaSP)).list();
             tx.commit();
 
@@ -118,6 +141,6 @@ public class HangHoaImageDaoImpl implements HangHoaImageDao {
             session.close();
 
         }
-        return  null;
+        return  hangHoaImages;
     }
 }

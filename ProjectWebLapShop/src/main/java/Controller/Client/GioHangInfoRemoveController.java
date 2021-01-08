@@ -27,18 +27,18 @@ public class GioHangInfoRemoveController extends HttpServlet {
         HttpSession session = request.getSession();
 
         GioHang gioHang = (GioHang) session.getAttribute("gioHang");
-        String MaSP = request.getParameter("MaSP");
-        HangHoa hangHoa = hangHoaService.get(Integer.parseInt(MaSP));
+        String maSP = request.getParameter("maSP");
 
-        GioHangInfo gioHangInfo = gioHangInfoService.get(gioHang.getMaGioHang(),hangHoa.getMaSP() );
 
+        GioHangInfo gioHangInfo = gioHangInfoService.get(gioHang.getMaGioHang(),Integer.parseInt(maSP));
+//        TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taiKhoan");
         Set<GioHangInfo> gioHangInfoSet = (Set<GioHangInfo>) session.getAttribute("gioHangInfoSet");
-
 
         gioHangInfoSet.remove( gioHangInfo);
         gioHangInfoService.delete(gioHangInfo);
 
-        session.setAttribute("listGioHangInfo", gioHangInfoSet);
+        gioHang.setTongTien(Math.max(gioHang.getTongTien()-gioHangInfo.getSoLuong()*gioHangInfo.getHangHoa().getGiaBan(),0));
+        session.setAttribute("gioHangInfoSet", gioHangInfoSet);
 
         response.sendRedirect(request.getContextPath()+"/Client/shopping-cart.jsp");
     }

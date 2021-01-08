@@ -6,6 +6,7 @@ import Util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HopThuDaoImpl implements HopThuDao {
@@ -73,7 +74,7 @@ public class HopThuDaoImpl implements HopThuDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-        HopThu phanQuyen;
+        HopThu hopThu  = new HopThu();
         try{
             tx = session.beginTransaction();
             Criteria crit = session.createCriteria(HopThu.class);
@@ -81,9 +82,9 @@ public class HopThuDaoImpl implements HopThuDao {
             // Add restriction.
             crit.add(Restrictions.eq("maHopThu",maHopThu ));
 
-            phanQuyen = (HopThu)crit.uniqueResult();
+            hopThu = (HopThu)crit.uniqueResult();
             tx.commit();
-            return phanQuyen;
+            return hopThu;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -92,7 +93,61 @@ public class HopThuDaoImpl implements HopThuDao {
             session.close();
 
         }
-        return  null;
+        return  hopThu;
+    }
+
+    @Override
+    public HopThu getByTraLoi(int maHopThu) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        HopThu hopThu = new HopThu();
+        try{
+            tx = session.beginTransaction();
+            Criteria crit = session.createCriteria(HopThu.class);
+
+            // Add restriction.
+            crit.add(Restrictions.eq("traLoi",maHopThu ));
+
+            hopThu = (HopThu)crit.uniqueResult();
+            tx.commit();
+            return hopThu;
+
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+
+        }
+        return  hopThu;
+    }
+
+    @Override
+    public List<HopThu> getTrangThai(String trangThai) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<HopThu> hopThuList = new ArrayList<>();
+        try{
+            tx = session.beginTransaction();
+            Criteria crit = session.createCriteria(HopThu.class);
+
+            // Add restriction.
+            crit.add(Restrictions.eq("trangThai",trangThai ));
+
+           hopThuList = (List<HopThu>) crit.list();
+            tx.commit();
+            return hopThuList;
+
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+
+        }
+        return  hopThuList;
     }
 
     @Override
@@ -100,14 +155,15 @@ public class HopThuDaoImpl implements HopThuDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
+        List<HopThu> hopThuList = new ArrayList<>();
 
         try{
             tx = session.beginTransaction();
             Criteria crit = session.createCriteria(HopThu.class);
 
-            List hopThu = crit.list();
+            hopThuList = crit.list();
             tx.commit();
-            return  hopThu;
+            return  hopThuList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -116,7 +172,7 @@ public class HopThuDaoImpl implements HopThuDao {
             session.close();
 
         }
-        return  null;
+        return  hopThuList;
 
     }
 }

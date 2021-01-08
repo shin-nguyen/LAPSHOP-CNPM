@@ -16,10 +16,6 @@ public class KhuyenMaiServiceImpl  implements KhuyenMaiService {
 
     @Override
     public void edit(KhuyenMai khuyenMai) {
-        KhuyenMai khuyenMaiCu = khuyenMaiDao.get(khuyenMai.getMaKhuyenMai());
-        khuyenMaiCu.setNgayKetThuc(khuyenMai.getNgayKetThuc());
-        khuyenMaiCu.setNgayBatDau(khuyenMai.getNgayBatDau());
-        khuyenMaiCu.setGiaTriKhuyenMai(khuyenMai.getGiaTriKhuyenMai());
 
         khuyenMaiDao.edit(khuyenMai);
     }

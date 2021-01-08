@@ -12,6 +12,7 @@ public interface HangHoaImageService {
     void delete(HangHoaImage hangHoaImage);
 
     List<HangHoaImage> getAll();
+    void deleteAll(int maSP);
 
     List<HangHoaImage> getByMaSP(int MaSP);
 }

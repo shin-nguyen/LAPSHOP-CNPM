@@ -2,23 +2,25 @@ package Controller.Admin;
 
 import Model.HangHoa;
 import Model.NSX;
+import Model.TaiKhoan;
 import Service.HangHoaService;
 import Service.NSXService;
 import ServiceImpl.HangHoaServiceImpl;
 import ServiceImpl.NSXServiceImpl;
+import org.apache.commons.io.IOUtils;
 
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import javax.servlet.http.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,90 +31,115 @@ public class HangHoaAddController extends HttpServlet {
     NSXService nsxService = new NSXServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        InputStream inputStream =null;
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        TaiKhoan taiKhoan = (TaiKhoan) session.getAttribute("taiKhoan");
+        if (taiKhoan.getPhanQuyen() == 2) {
+            InputStream inputStream = null;
 
 
-        Part filePart = request.getPart("photo");
-        if (filePart != null) {
-            // obtains input stream of the upload file
-            inputStream = filePart.getInputStream();
+            Part filePart = request.getPart("photo");
+            if (filePart != null) {
+                inputStream = filePart.getInputStream();
+            }
+            byte[] fileAsByteArray = IOUtils.toByteArray(inputStream);
+
+
+            String MaSP = request.getParameter("maSP").trim();
+            String TenNSX = request.getParameter("tenNSX").trim();
+            String TenSP = request.getParameter("tenSP").trim();
+            String GiaBan = request.getParameter("giaBan").trim();
+            String GiaGoc = request.getParameter("giaGoc").trim();
+            String MoTa = request.getParameter("moTa").trim();
+            String CPU = request.getParameter("cpu").trim();
+            String RAM = request.getParameter("ram");
+            String OCung = request.getParameter("ocung").trim();
+            String ManHinh = request.getParameter("manHinh").trim();
+            String PIN = request.getParameter("pin").trim();
+
+            NSX nsx = nsxService.getByTenNSX(TenNSX);
+            if (nsx != null) {
+                HangHoa hangHoa = new HangHoa();
+
+                if (Integer.parseInt(MaSP) != 0) {
+                    hangHoa = hangHoaService.get(Integer.parseInt(MaSP));
+                }
+                hangHoa.setPIN(PIN);
+                hangHoa.setManHinh(ManHinh);
+                hangHoa.setOCung(OCung);
+                hangHoa.setRAM(RAM);
+
+                hangHoa.setGiaGoc(Integer.parseInt(GiaGoc));
+                hangHoa.setGiaBan(Integer.parseInt(GiaBan));
+                hangHoa.setNSX(nsx);
+                hangHoa.setTenSP(TenSP);
+                hangHoa.setCPU(CPU);
+                hangHoa.setMoTa(MoTa);
+                hangHoa.setHinh(fileAsByteArray);
+                hangHoa.setBase64Image(Base64.getEncoder().encodeToString(fileAsByteArray));
+
+                if (Integer.parseInt(MaSP) == 0) {
+                    request.setAttribute("maSP",0);
+                    hangHoaService.insert(hangHoa);
+
+                    Set<HangHoa> hangHoaSet = (Set<HangHoa>) session.getAttribute("hangHoaSet");
+                    hangHoaSet.add(hangHoa);
+                    session.setAttribute("hangHoaSet", hangHoaSet);
+
+                    request.setAttribute("ThongBao", "Them Thanh Cong");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AddProduct.jsp");
+                    dispatcher.forward(request, response);
+                } else {
+                    hangHoaService.edit(hangHoa);
+
+                    Set<HangHoa> hangHoaSet = (Set<HangHoa>) session.getAttribute("hangHoaSet");
+                    hangHoaSet.remove(hangHoa);
+                    hangHoaSet.add(hangHoa);
+                    session.setAttribute("hangHoaSet", hangHoaSet);
+
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/ProductsList.jsp");
+                    dispatcher.forward(request, response);
+                }
+            } else {
+                request.setAttribute("nsxError", "Manufacturer does not exist");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AddProduct.jsp");
+                dispatcher.forward(request, response);
+            }
+
+        } else {
+            response.sendRedirect(request.getContextPath() + "/WaitingController");
         }
-
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-        int nRead;
-        byte[] data = new byte[16384];
-
-        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
-        }
-
-
-        String MaSP = request.getParameter("maSP");
-        String MaNSX = request.getParameter("maNSX");
-        NSX nsx = nsxService.get(Integer.parseInt(MaNSX));
-
-        String TenSP = request.getParameter("tenSP");
-        String GiaBan = request.getParameter("giaBan");
-        String GiaGoc = request.getParameter("giaGoc");
-        String SoLuong = request.getParameter("soLuong");
-        String MoTa = request.getParameter("moTa");
-        String CPU =request.getParameter("cpu");
-        String RAM =request.getParameter("ram");
-
-//        if (RAM.trim().isEmpty()){
-//            request.setAttribute("RamLoi","Nhap So di May");
-//        }
-//        else{
-//            Pattern RamPattern = Pattern.compile("\\d{3}");
-//            Matcher RamMatcher = RamPattern.matcher(RAM);
-//
-//            if (!RamMatcher.matches()){
-//                request.setAttribute("RamLoi","");
-//            }
-//        }
-
-
-        String OCung=request.getParameter("ocung");
-        String ManHinh=request.getParameter("manHinh");
-
-        String PIN=request.getParameter("pin");
-//        if (PIN.trim().isEmpty()){
-//            request.setAttribute("PinLoi","Nhap So di May");
-//        }
-//        else{
-//            Pattern PinPattern = Pattern.compile("\\d{4}");
-//            Matcher PinMatcher = PinPattern.matcher(RAM);
-//
-//            if (!PinMatcher.matches()){
-//                request.setAttribute("PinLoi","");
-//            }
-//        }
-        //NSX nsx = nsxService.getByTenNSX(TenNSX);
-
-        HangHoa hangHoa = new HangHoa();
-        hangHoa.setPIN(PIN);
-        hangHoa.setManHinh(ManHinh);
-        hangHoa.setOCung(OCung);
-        hangHoa.setRAM(RAM);
-        hangHoa.setSoLuong(Integer.parseInt(SoLuong));
-        //hangHoa.setSoLuong(0);
-        hangHoa.setGiaGoc(Integer.parseInt(GiaGoc));
-        hangHoa.setGiaBan(Integer.parseInt(GiaBan));
-        hangHoa.setNSX(nsx);
-        hangHoa.setTenSP(TenSP);
-        hangHoa.setCPU(CPU);
-        hangHoa.setMoTa(MoTa);
-        hangHoa.setHinh( buffer.toByteArray());
-        hangHoaService.insert(hangHoa);
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AddProduct.jsp");
-        dispatcher.forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request,response);
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        TaiKhoan taiKhoan= (TaiKhoan) session.getAttribute("taiKhoan");
+        if (taiKhoan.getPhanQuyen()==2) {
+            String MaSP = request.getParameter("maSP");
+            HangHoa hangHoa = hangHoaService.get(Integer.parseInt(MaSP));
+
+
+            request.setAttribute("maSP",MaSP);
+            request.setAttribute("tenNSX",hangHoa.getNSX().getTenNSX());
+            request.setAttribute("tenSP",hangHoa.getTenSP());
+            request.setAttribute("giaBan",hangHoa.getGiaBan());
+            request.setAttribute("giaGoc",hangHoa.getGiaGoc());
+
+            request.setAttribute("moTa",hangHoa.getMoTa());
+            request.setAttribute("cpu",hangHoa.getCPU());
+            request.setAttribute("ram",hangHoa.getRAM());
+
+            request.setAttribute("ocung",hangHoa.getOCung());
+            request.setAttribute("manHinh",hangHoa.getManHinh());
+            request.setAttribute("pin",hangHoa.getPIN());
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/Admin/AddProduct.jsp");
+            dispatcher.forward(request, response);
+        }
+        else{
+            response.sendRedirect(request.getContextPath()+ "/WaitingController");
+        }
+
     }
 }

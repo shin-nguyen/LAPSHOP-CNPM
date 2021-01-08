@@ -3,6 +3,7 @@ package Controller.Client;
 
 
 
+import Model.TaiKhoan;
 import Util.LinkWeb;
 
 import javax.servlet.ServletException;
@@ -15,9 +16,24 @@ public class DangXuatController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-
+        TaiKhoan taiKhoan= (TaiKhoan) session.getAttribute("taiKhoan");
         session.removeAttribute("taiKhoan"); //remove session
+        if (taiKhoan.getPhanQuyen()==1) {
 
+            session.removeAttribute("gioHangInfoSet");
+            session.removeAttribute("gioHang");
+            session.removeAttribute("yeuThichSet");
+        }
+        else{
+            session.removeAttribute("hopThuSet");
+            session.removeAttribute("hangHoaSet");
+            session.removeAttribute("taiKhoanSet");
+            session.removeAttribute("nsxSet");
+            session.removeAttribute("khuyenMaiSet");
+
+
+        }
+        session.invalidate();
         Cookie[] cookies = request.getCookies();
 
         if(cookies!=null){
@@ -30,6 +46,6 @@ public class DangXuatController extends HttpServlet {
             }
         }
 
-        response.sendRedirect(request.getContextPath()+"/Client/index.jsp");
+        response.sendRedirect(request.getContextPath()+"/index.jsp");
     }
 }

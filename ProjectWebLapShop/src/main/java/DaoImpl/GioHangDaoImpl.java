@@ -9,6 +9,7 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GioHangDaoImpl implements GioHangDao {
@@ -76,12 +77,12 @@ public class GioHangDaoImpl implements GioHangDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        GioHang gioHang = new GioHang();
         try {
             tx = session.beginTransaction();
             Criteria cr = session.createCriteria(GioHang.class);
             cr.add(Restrictions.eq("maGioHang", MaGioHang));
-            GioHang gioHang = (GioHang) cr.uniqueResult();
+            gioHang= (GioHang) cr.uniqueResult();
             tx.commit();
 
             return gioHang;
@@ -92,21 +93,45 @@ public class GioHangDaoImpl implements GioHangDao {
         } finally {
             session.close();
         }
-        return  null;
+        return  gioHang;
     }
 
     @Override
-    public GioHang getByTinhTrang(String tinhTrang,int maTK) {
+    public List<GioHang> getByTinhTrang(int tinhTrang) {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
+        List<GioHang> gioHangList = new ArrayList<>();
+        try {
+            tx = session.beginTransaction();
+            Criteria cr = session.createCriteria(GioHang.class);
+            cr.add(Restrictions.eq("trangThai", tinhTrang));
+            gioHangList =  cr.list();
+            tx.commit();
 
+            return gioHangList;
+        } catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return  gioHangList;
+    }
+
+    @Override
+    public GioHang getByTinhTrang(int tinhTrang,int maTK) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        GioHang gioHang = new GioHang();
         try {
             tx = session.beginTransaction();
             Criteria cr = session.createCriteria(GioHang.class);
             cr.add(Restrictions.eq("trangThai", tinhTrang));
             cr.add(Restrictions.eq("taiKhoan.maTK", maTK));
-            GioHang gioHang = (GioHang) cr.uniqueResult();
+            gioHang= (GioHang) cr.uniqueResult();
             tx.commit();
 
             return gioHang;
@@ -117,7 +142,32 @@ public class GioHangDaoImpl implements GioHangDao {
         } finally {
             session.close();
         }
-        return  null;
+        return  gioHang;
+    }
+
+    @Override
+    public List<GioHang> getAllne() {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<GioHang> gioHangList = new ArrayList<>();
+
+        try {
+            tx = session.beginTransaction();
+            Criteria cr = session.createCriteria(GioHang.class);
+            cr.add(Restrictions.ne("trangThai", 0));
+             gioHangList =  cr.list();
+            tx.commit();
+
+            return gioHangList;
+        } catch (HibernateException e) {
+            if (tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return  gioHangList;
     }
 
     @Override
@@ -125,14 +175,15 @@ public class GioHangDaoImpl implements GioHangDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
+        List<GioHang> gioHangList = new ArrayList<>();
 
         try {
             tx = session.beginTransaction();
             Criteria cr = session.createCriteria(GioHang.class);
-            List gioHang =  cr.list();
+            gioHangList =  cr.list();
             tx.commit();
 
-            return gioHang;
+            return gioHangList;
         } catch (HibernateException e) {
             if (tx != null)
                 tx.rollback();
@@ -140,51 +191,25 @@ public class GioHangDaoImpl implements GioHangDao {
         } finally {
             session.close();
         }
-        return  null;
+        return  gioHangList;
     }
 
-    @Override
-    public Integer getMaxGioHang() {
-        factory = HibernateUtil.getSessionFactory();
-        Session session = factory.openSession();
-        Transaction tx = null;
-
-        try {
-            tx = session.beginTransaction();
-
-            Criteria criteria = session
-                    .createCriteria(GioHang.class)
-                    .setProjection(Projections.max("maGioHang"));
-            Integer maGioHang = (Integer)criteria.uniqueResult();
-            tx.commit();
-
-            if (maGioHang==null)
-                return  0;
-            return maGioHang;
-        } catch (HibernateException e) {
-            if (tx != null)
-                tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return  0;
-    }
 
     @Override
     public List<GioHang> searchByMaTK(int MaTK) {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
+        List<GioHang> gioHangList = new ArrayList<>();
 
         try {
             tx = session.beginTransaction();
             Criteria cr = session.createCriteria(GioHang.class);
             cr.add(Restrictions.eq("MaTK", MaTK));
-            List gioHang =  cr.list();
+            gioHangList =  cr.list();
             tx.commit();
 
-            return gioHang;
+            return gioHangList;
         } catch (HibernateException e) {
             if (tx != null)
                 tx.rollback();
@@ -192,6 +217,6 @@ public class GioHangDaoImpl implements GioHangDao {
         } finally {
             session.close();
         }
-        return  null;
+        return  gioHangList;
     }
 }

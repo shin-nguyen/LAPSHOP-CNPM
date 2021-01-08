@@ -12,22 +12,20 @@ import java.util.List;
 
 public class TaiKhoanServiceImpl implements TaiKhoanService {
     TaiKhoanDao taiKhoanDao =  new TaiKhoanDaoImpl();
-    HopThuDao phanQuyenDao = new HopThuDaoImpl();
+
     @Override
     public void insert(TaiKhoan taiKhoan) {
         taiKhoanDao.insert(taiKhoan);
     }
 
     @Override
+    public List<TaiKhoan> getTKByPQ(int tenPQ) {
+        return taiKhoanDao.getTKByPQ(tenPQ);
+    }
+
+    @Override
     public void edit(TaiKhoan taiKhoan) {
 
-        TaiKhoan taiKhoanCu = taiKhoanDao.get(taiKhoan.getMaTK());
-
-        taiKhoanCu.setMatKhau(taiKhoan.getMatKhau());
-        taiKhoanCu.setDiaChi(taiKhoan.getDiaChi());
-        taiKhoanCu.setEmail(taiKhoan.getEmail());
-        taiKhoanCu.setHoTen(taiKhoan.getHoTen());
-        taiKhoanCu.setNamSinh(taiKhoan.getNamSinh());
 
         taiKhoanDao.edit(taiKhoan);
     }
@@ -49,6 +47,11 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
     }
 
     @Override
+    public TaiKhoan getTKByEmail(String email) {
+        return taiKhoanDao.getTKByEmail(email);
+    }
+
+    @Override
     public TaiKhoan login(String tenTK, String matKhau) {
         TaiKhoan taiKhoan = taiKhoanDao.getTenTK(tenTK);
         if (taiKhoan != null && taiKhoan.getMatKhau().equals(matKhau)) {
@@ -60,21 +63,22 @@ public class TaiKhoanServiceImpl implements TaiKhoanService {
 
     @Override
     public boolean register(String tenTK , String matKhau, String hoTen, Date namSinh , String diaChi , String  email) {
+        taiKhoanDao.insert(new TaiKhoan(0,tenTK, matKhau,1,hoTen,namSinh,diaChi,email));
+        return true;
+    }
+    @Override
+    public boolean registerAdmin(String tenTK , String matKhau, String hoTen, Date namSinh , String diaChi , String  email) {
         if (taiKhoanDao.checkExistUsername(tenTK)) {
             return false;
         }
 
-        taiKhoanDao.insert(new TaiKhoan(0,tenTK, matKhau,1,hoTen,namSinh,diaChi,email,0));
+        taiKhoanDao.insert(new TaiKhoan(0,tenTK, matKhau,2,hoTen,namSinh,diaChi,email));
         return true;
     }
-
     @Override
     public List<TaiKhoan> getAll() {
         return taiKhoanDao.getAll();
     }
-
-
-
 
     @Override
     public boolean checkExistEmail(String email) {

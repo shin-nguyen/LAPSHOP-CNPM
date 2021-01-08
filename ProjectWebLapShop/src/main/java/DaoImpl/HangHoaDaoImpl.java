@@ -7,6 +7,7 @@ import Util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HangHoaDaoImpl implements HangHoaDao {
@@ -74,7 +75,7 @@ public class HangHoaDaoImpl implements HangHoaDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        HangHoa hangHoa = new HangHoa();
         try{
             tx = session.beginTransaction();
 
@@ -83,7 +84,7 @@ public class HangHoaDaoImpl implements HangHoaDao {
             // Add restriction.
             crit.add(Restrictions.eq("maSP",MaSP ));
 
-            HangHoa hangHoa = (HangHoa) crit.uniqueResult();
+             hangHoa = (HangHoa) crit.uniqueResult();
             tx.commit();
             return hangHoa;
 
@@ -94,7 +95,7 @@ public class HangHoaDaoImpl implements HangHoaDao {
             session.close();
 
         }
-        return  null;
+        return  hangHoa;
     }
 
     @Override
@@ -102,14 +103,14 @@ public class HangHoaDaoImpl implements HangHoaDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<HangHoa> hangHoaList =  new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
-            List<HangHoa> hangHoa = session.createCriteria(HangHoa.class).list();
+             hangHoaList = session.createCriteria(HangHoa.class).list();
             tx.commit();
 
-            return hangHoa;
+            return hangHoaList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -118,7 +119,7 @@ public class HangHoaDaoImpl implements HangHoaDao {
             session.close();
 
         }
-        return  null;
+        return  hangHoaList;
     }
 
     @Override
@@ -126,15 +127,16 @@ public class HangHoaDaoImpl implements HangHoaDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
+        List<HangHoa> hangHoaList =  new ArrayList<>();
 
         try{
             tx = session.beginTransaction();
 
-            List<HangHoa> hangHoa = (List<HangHoa>)session.createCriteria(HangHoa.class)
-                    .add(Restrictions.ilike("TenSP", '%'+tenHangHoa+'%')).list();
+            hangHoaList = (List<HangHoa>)session.createCriteria(HangHoa.class)
+                    .add(Restrictions.ilike("tenSP", '%'+tenHangHoa+'%')).list();
             tx.commit();
 
-            return hangHoa;
+            return hangHoaList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -143,6 +145,6 @@ public class HangHoaDaoImpl implements HangHoaDao {
             session.close();
 
         }
-        return  null;
+        return  hangHoaList;
     }
 }

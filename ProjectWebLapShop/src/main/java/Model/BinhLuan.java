@@ -17,8 +17,6 @@ import java.util.Objects;
 
 })
 public  class BinhLuan {
-
-
     private  String TieuDe;
     private  String NoiDung;
     private  int Sao;
@@ -62,7 +60,7 @@ public  class BinhLuan {
     }
 
 
-    @Column(name = "thoiGian")
+    @Column(name = "thoiGian",nullable = false)
     @Temporal(TemporalType.DATE)
     public Date getThoiGian() {
         return ThoiGian;
@@ -106,6 +104,6 @@ public  class BinhLuan {
         if (!(o instanceof BinhLuanId)) return false;
         BinhLuanId that = (BinhLuanId) o;
         return Objects.equals(getTaiKhoan().getMaTK(), that.getTaiKhoan().getMaTK())&&
-                Objects.equals(getHangHoa().getMaSP(), getHangHoa().getMaSP());
+                Objects.equals(getHangHoa().getMaSP(), that.getHangHoa().getMaSP());
     }
 }

@@ -1,4 +1,8 @@
-<!-- Begin Footer Area -->
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<META HTTP-EQUIV="Content-language" CONTENT="vi">--%>
+
 <c:url value="/Client" var="url"></c:url>
 <div class="footer">
     <!-- Begin Footer Static Top Area -->
@@ -75,21 +79,21 @@
                         <div class="footer-logo">
                             <img src="${url}/images/menu/logo/1.png" alt="Footer Logo" style="height: 100%; width: 100%;">
                             <p class="info">
-                                We are a team of designers and developers that create high quality HTML Template & Woocommerce, Shopify Theme.
+                                Designed by the TangYuCheng team
                             </p>
                         </div>
                         <ul class="des">
                             <li>
                                 <span>Address: </span>
-                                UTE
+                                1 - Vo Van Ngan - Thu Duc - TP.HCM
                             </li>
                             <li>
                                 <span>Phone: </span>
-                                <a href="#">(+123) 123 321 345</a>
+                                (+84) 918948074
                             </li>
                             <li>
                                 <span>Email: </span>
-                                <a href="mailto://info@yourdomain.com">info.domain.com</a>
+                                <a href="mailto://tangyucheng2000@domain.com">tangyucheng2000@domain.com</a>
                             </li>
                         </ul>
                     </div>
@@ -99,10 +103,8 @@
                         <div class="footer-block">
                             <h3 class="footer-block-title">Product</h3>
                             <ul>
-                                <li><a href="#">Prices drop</a></li>
-                                <li><a href="#">New products</a></li>
-                                <li><a href="#">Best sales</a></li>
-                                <li><a href="#">Contact us</a></li>
+                                <li><a href="${pageContext.request.contextPath}/WaitingController">Products</a></li>
+                                <li><a href="${url}/contact.jsp">Contact us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -112,10 +114,8 @@
                         <div class="footer-block">
                             <h3 class="footer-block-title">Our company</h3>
                             <ul>
-                                <li><a href="#">Delivery</a></li>
-                                <li><a href="#">Legal Notice</a></li>
-                                <li><a href="#">About us</a></li>
-                                <li><a href="#">Contact us</a></li>
+                                <li><a href="${url}/about-us.jsp">About us</a></li>
+                                <li><a href="${url}/contact.jsp">Contact us</a></li>
                             </ul>
                         </div>
                     </div>
@@ -126,32 +126,17 @@
                             <h3 class="footer-block-title">Follow Us</h3>
                             <ul class="social-link">
                                 <li class="twitter">
-                                    <a href="https://twitter.com/" data-toggle="tooltip" target="_blank" title="Twitter">
+                                    <a href="https://twitter.com/ThnhThngCh1" data-toggle="tooltip" target="_blank" title="Twitter">
                                         <i class="fa fa-twitter"></i>
                                     </a>
                                 </li>
-                                <li class="rss">
-                                    <a href="https://rss.com/" data-toggle="tooltip" target="_blank" title="RSS">
-                                        <i class="fa fa-rss"></i>
-                                    </a>
-                                </li>
-                                <li class="google-plus">
-                                    <a href="https://www.plus.google.com/discover" data-toggle="tooltip" target="_blank" title="Google Plus">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
                                 <li class="facebook">
-                                    <a href="https://www.facebook.com/" data-toggle="tooltip" target="_blank" title="Facebook">
+                                    <a href="https://www.facebook.com/tle121100/" data-toggle="tooltip" target="_blank" title="Facebook">
                                         <i class="fa fa-facebook"></i>
                                     </a>
                                 </li>
-                                <li class="youtube">
-                                    <a href="https://www.youtube.com/" data-toggle="tooltip" target="_blank" title="Youtube">
-                                        <i class="fa fa-youtube"></i>
-                                    </a>
-                                </li>
                                 <li class="instagram">
-                                    <a href="https://www.instagram.com/" data-toggle="tooltip" target="_blank" title="Instagram">
+                                    <a href="https://www.instagram.com/thanh_tle_1211/" data-toggle="tooltip" target="_blank" title="Instagram">
                                         <i class="fa fa-instagram"></i>
                                     </a>
                                 </li>
@@ -163,22 +148,5 @@
             </div>
         </div>
     </div>
-    <!-- Footer Static Middle Area End Here -->
-    <!-- Begin Footer Static Bottom Area -->
-    <div class="footer-static-bottom pt-55 pb-55">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <!-- Begin Footer Payment Area -->
-                    <div class="copyright text-center">
-                        <a href="#">
-                            <img src="${url}/images/payment/1.png" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer Static Bottom Area End Here -->
 </div>
 <!-- Footer Area End Here -->

@@ -12,10 +12,11 @@ public interface GioHangService {
     void delete(GioHang gioHang);
 
     GioHang get(int MaGioHang);
-    Integer getMaxGioHang();
+//    Integer getMaxGioHang();
+List<GioHang> getAllne();
 
     List<GioHang> getAll();
-    GioHang getByTinhTrang(String tinhTrang,int maTK);
-
+    GioHang getByTinhTrang(int tinhTrang,int maTK);
+    List<GioHang> getByTinhTrang(int tinhTrang);
     List<GioHang> searchByMaTK(int MaTK);
 }

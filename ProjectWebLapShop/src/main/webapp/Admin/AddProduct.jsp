@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -10,11 +11,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
-<%--    <meta name="author" content="Hau Nguyen">--%>
+<%--    <meta name="author" content="">--%>
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
+    <title>Add Product</title>
 
     <!-- Fontfaces CSS-->
     <link href="${url}/css/font-face.css" rel="stylesheet" media="all">
@@ -54,230 +55,149 @@
                                     <strong>Add New Product</strong>
                                 </div>
                                 <div class="card-body card-block">
-<%--                                    enctype="multipart/form-data"--%>
+
                                     <form action="${pageContext.request.contextPath}/HangHoaAddController" method="post"  class="form-horizontal"  enctype="multipart/form-data">
 
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label  class=" form-control-label">Mã sản phẩm</label>
+
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text" name="maSP" placeholder="MaSP" class="form-control">
-                                                <small class="form-text text-muted">*Bắt buộc</small>
+
+                                                <c:choose>
+
+                                                    <c:when test = "${(not empty maSP)}">
+
+                                                        <input type="text" name="maSP" value="${maSP}"  class="form-control" hidden readonly required>
+
+                                                    </c:when>
+
+                                                    <c:otherwise>
+                                                        <input type="text" name="maSP" value="0" class="form-control" readonly hidden required>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label class=" form-control-label">Manufacturer's <label style="color: #e50606" ><c:out value="${nsxError}"/> </label> </label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <input type="text" value="${tenNSX}" name="tenNSX" placeholder="Manufacturer's Name" class="form-control">
                                             </div>
                                         </div>
                                         <div class="row form-group">
-                                            <div class="col col-md-3">
-                                                <label class=" form-control-label">Mã nhà sản xuất</label>
-                                            </div>
-                                            <div class="col-12 col-md-9">
-                                                <input type="text"  name="maNSX" placeholder="Ma Nha SX" class="form-control">
-                                            </div>
-                                        </div><div class="row form-group">
+
                                         <div class="col col-md-3">
-                                            <label  class=" form-control-label">Tên sản phẩm</label>
+                                            <label  class=" form-control-label">Product Name</label>
                                         </div>
                                         <div class="col-12 col-md-9">
-                                            <input type="text"  name="tenSP" placeholder="" class="form-control">
-
+                                            <input type="text"  name="tenSP" value="${tenSP}" placeholder="Product Name" class="form-control" required>
                                         </div>
-                                    </div>
-                                        <div class="row form-group">
-                                            <div class="col col-md-3">
-                                                <label class=" form-control-label">Đơn giá</label>
-                                            </div>
-                                            <div class="col-12 col-md-9">
-                                                <input type="text"  name="giaGoc" placeholder="" class="form-control">
-
-                                            </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label class=" form-control-label">Gia Ban</label>
+                                                <label class=" form-control-label">Original price of the product</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text"  name="giaBan" placeholder="" class="form-control">
+                                                <input type="text" value="${giaGoc}"  name="giaGoc" placeholder="Original price of the product " class="form-control" required>
 
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label  class=" form-control-label">Số lượng</label>
+                                                <label class=" form-control-label">Product selling price</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text" name="soLuong" placeholder="" class="form-control">
+                                                <input type="text" value="${giaBan}" name="giaBan" placeholder="Product selling price" class="form-control" required>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label for="textarea-input" class=" form-control-label">Description</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <textarea name="moTa"  id="textarea-input" rows="9" placeholder="description" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row form-group">
+                                            <div class="col col-md-3">
+                                                <label  class=" form-control-label">CPU</label>
+                                            </div>
+                                            <div class="col-12 col-md-9">
+                                                <input type="text" value="${cpu}" name="cpu" placeholder="CPU" class="form-control" required>
 
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label for="textarea-input" class=" form-control-label">Ghi chú</label>
+                                                <label  class=" form-control-label">RAM</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <textarea name="moTa" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea>
-                                            </div>
-                                        </div>
-
-<%--                                        <div class="row form-group">--%>
-<%--                                            <div class="col col-md-3">--%>
-<%--                                                <label for="text-input" class=" form-control-label">Số lượng</label>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-12 col-md-9">--%>
-<%--                                                <input type="text" id="text-input" name="cpu" placeholder="" class="form-control">--%>
-
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-                                        <div class="row form-group">
-                                            <div class="col col-md-3">
-                                                <label  class=" form-control-label">cpu</label>
-                                            </div>
-                                            <div class="col-12 col-md-9">
-                                                <input type="text" name="cpu" placeholder="" class="form-control">
+                                                <input type="text" value="${ram}" name="ram" placeholder="RAM" class="form-control" required>
 
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label  class=" form-control-label">ram</label>
+                                                <label class=" form-control-label">Hard Disk</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text"  name="ram" placeholder="" class="form-control">
+                                                <input type="text" value="${ocung}" name="ocung" placeholder="Hard Disk" class="form-control" required>
 
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label class=" form-control-label">ocung</label>
+                                                <label  class=" form-control-label">Display</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text"  name="ocung" placeholder="" class="form-control">
+                                                <input type="text"  name="manHinh" value="${manHinh}" placeholder="Display" class="form-control" required>
 
                                             </div>
                                         </div>
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label  class=" form-control-label">manhinh</label>
+                                                <label  class=" form-control-label">PIN</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="text"  name="manHinh" placeholder="" class="form-control">
+                                                <input type="text" name="pin" value="${pin}" placeholder="PIN" class="form-control" required>
 
                                             </div>
                                         </div>
-                                        <div class="row form-group">
-                                            <div class="col col-md-3">
-                                                <label  class=" form-control-label">pin</label>
-                                            </div>
-                                            <div class="col-12 col-md-9">
-                                                <input type="text" name="pin" placeholder="" class="form-control">
-
-                                            </div>
-                                        </div>
-<%--                                        <div class="row form-group">--%>
-<%--                                            <div class="col col-md-3">--%>
-<%--                                                <label for="selectSm" class=" form-control-label">CPU</label>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-12 col-md-9">--%>
-<%--                                                <select name="selectSm" id="SelectLm" class="form-control-sm form-control">--%>
-<%--                                                    <option value="0">Please select</option>--%>
-<%--                                                    <option value="1">Option #1</option>--%>
-<%--                                                    <option value="2">Option #2</option>--%>
-<%--                                                    <option value="3">Option #3</option>--%>
-<%--                                                    <option value="4">Option #4</option>--%>
-<%--                                                    <option value="5">Option #5</option>--%>
-<%--                                                </select>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="row form-group">--%>
-<%--                                            <div class="col col-md-3">--%>
-<%--                                                <label for="selectSm" class=" form-control-label">RAM</label>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-12 col-md-9">--%>
-<%--                                                <select name="selectSm" id="SelectLm" class="form-control-sm form-control">--%>
-<%--                                                    <option value="0">Please select</option>--%>
-<%--                                                    <option value="1">Option #1</option>--%>
-<%--                                                    <option value="2">Option #2</option>--%>
-<%--                                                    <option value="3">Option #3</option>--%>
-<%--                                                    <option value="4">Option #4</option>--%>
-<%--                                                    <option value="5">Option #5</option>--%>
-<%--                                                </select>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="row form-group">--%>
-<%--                                            <div class="col col-md-3">--%>
-<%--                                                <label for="selectSm" class=" form-control-label">Ổ Cứng</label>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-12 col-md-9">--%>
-<%--                                                <select name="selectSm" id="SelectLm" class="form-control-sm form-control">--%>
-<%--                                                    <option value="0">Please select</option>--%>
-<%--                                                    <option value="1">Option #1</option>--%>
-<%--                                                    <option value="2">Option #2</option>--%>
-<%--                                                    <option value="3">Option #3</option>--%>
-<%--                                                    <option value="4">Option #4</option>--%>
-<%--                                                    <option value="5">Option #5</option>--%>
-<%--                                                </select>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="row form-group">--%>
-<%--                                            <div class="col col-md-3">--%>
-<%--                                                <label for="selectSm" class=" form-control-label">Màn hình</label>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-12 col-md-9">--%>
-<%--                                                <select name="selectSm" id="SelectLm" class="form-control-sm form-control">--%>
-<%--                                                    <option value="0">Please select</option>--%>
-<%--                                                    <option value="1">Option #1</option>--%>
-<%--                                                    <option value="2">Option #2</option>--%>
-<%--                                                    <option value="3">Option #3</option>--%>
-<%--                                                    <option value="4">Option #4</option>--%>
-<%--                                                    <option value="5">Option #5</option>--%>
-<%--                                                </select>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="row form-group">--%>
-<%--                                            <div class="col col-md-3">--%>
-<%--                                                <label for="selectSm" class=" form-control-label">PIN</label>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-12 col-md-9">--%>
-<%--                                                <select name="selectSm" id="SelectLm" class="form-control-sm form-control">--%>
-<%--                                                    <option value="0">Please select</option>--%>
-<%--                                                    <option value="1">Option #1</option>--%>
-<%--                                                    <option value="2">Option #2</option>--%>
-<%--                                                    <option value="3">Option #3</option>--%>
-<%--                                                    <option value="4">Option #4</option>--%>
-<%--                                                    <option value="5">Option #5</option>--%>
-<%--                                                </select>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="row form-group">--%>
-<%--                                            <div class="col col-md-3">--%>
-<%--                                                <label for="disabledSelect" class=" form-control-label">Disabled Select</label>--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-12 col-md-9">--%>
-<%--                                                <select name="disabledSelect" id="disabledSelect" disabled="" class="form-control">--%>
-<%--                                                    <option value="0">Please select</option>--%>
-<%--                                                    <option value="1">Option #1</option>--%>
-<%--                                                    <option value="2">Option #2</option>--%>
-<%--                                                    <option value="3">Option #3</option>--%>
-<%--                                                </select>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-
 
                                         <div class="row form-group">
                                             <div class="col col-md-3">
-                                                <label for="file-input" class=" form-control-label">File input</label>
+                                                <label for="file-input" class=" form-control-label">Add Image</label>
                                             </div>
                                             <div class="col-12 col-md-9">
-                                                <input type="file" id="file-input" name="photo" class="form-control-file" size="50" >
+                                                <input type="file" id="file-input" name="photo" class="form-control-file"  >
                                             </div>
                                         </div>
+
+                                        <c:if test="${not empty ThongBao}">
+                                            <script>
+                                                window.addEventListener("load",function(){
+                                                    alert("${ThongBao}");
+                                                })
+                                            </script>
+                                        </c:if>
 
                                         <div class="card-footer">
                                             <button type="submit" class="btn btn-primary btn-sm">
-                                                <i class="fa fa-dot-circle-o"></i> Thêm
+                                                <i class="fa fa-dot-circle-o"></i> Add
                                             </button>
-<%--                                            <button type="reset" class="btn btn-danger btn-sm">--%>
-<%--                                                <i class="fa fa-ban"></i> Hủy--%>
-<%--                                            </button>--%>
+                                            <a type="reset" class="btn btn-danger btn-sm"
+                                             href="${pageContext.request.contextPath}/Admin/ProductsList.jsp">
+                                                <i class="fa fa-ban"></i> Cancel
+                                            </a>
                                         </div>
                                     </form>
                                 </div>

@@ -5,8 +5,11 @@
   Time: 10:16 AM
   To change this template use File | Settings | File Templates.
 --%>
+ <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
  <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%-- <META HTTP-EQUIV="Content-language" CONTENT="vi">--%>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -66,7 +69,7 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="${url}/index.jsp">Home</a></li>
+                    <li><a href="${url}/home.jsp">Home</a></li>
                     <li class="active">About Us</li>
                 </ul>
             </div>
@@ -80,7 +83,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="li-section-title capitalize mb-25">
-                        <h2><span>our team</span></h2>
+                        <h2><span>Our team</span></h2>
                     </div>
                 </div>
             </div> <!-- section title end -->
@@ -88,75 +91,80 @@
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="team-member mb-60 mb-sm-30 mb-xs-30">
                         <div class="team-thumb">
-                            <img src="images/team/1.png" alt="Our Team Member">
+                            <img src="${url}/images/team/1.png" alt="Our Team Member">
                         </div>
                         <div class="team-content text-center">
-                            <h3>Thòng Chủ Thành</h3>
+                            <h3>Thong Chu Thanh</h3>
                             <p>Leader</p>
                             <a href="#">thongchuthanh2000@gmail.com</a>
                             <div class="team-social">
                                 <a href="https://www.facebook.com/tle121100/"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-github"></i></a>
-                                <a href="#"><i class="fa fa-youtube"></i></a>
+                                <a href="https://github.com/thongchuthanh2000"><i class="fa fa-github"></i></a>
+                                <a href="https://www.youtube.com/channel/UCS3qZrrEvDYZ4ji0rC0sqWg"><i class="fa fa-youtube"></i></a>
                                 <a href="#"><i class="fa fa-google-plus"></i></a>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+
+                <div class="team-member mb-60 mb-sm-30 mb-xs-30">
+                        <div class="team-thumb">
+                            <img src="${url}/images/team/4.jpg" alt="Our Team Member">
+                        </div>
+                        <div class="team-content text-center">
+                            <h3>Pham Nhut Truong</h3>
+                            <p>Developper</p>
+                            <a href="#">phamnhutruong@gmail.com</a>
+                            <div class="team-social">
+                                <a href="https://www.facebook.com/profile.php?id=100007344551626"><i class="fa fa-facebook"></i></a>
+                                <a href=""><i class="fa fa-github"></i></a>
+                                <a href=""><i class="fa fa-youtube"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+
+                <div class="team-member mb-60 mb-sm-30 mb-xs-30">
+                        <div class="team-thumb">
+                            <img src="${url}/images/team/3.jpg" alt="Our Team Member">
+                        </div>
+                        <div class="team-content text-center">
+                            <h3>Nguyen Quyet Sinh</h3>
+                            <p>Developper</p>
+                            <a href="#">sinhnguyen27022000@gmail.com</a>
+                            <div class="team-social">
+                                <a href="https://www.facebook.com/KaiAkatsuki0/"><i class="fa fa-facebook"></i></a>
+                                <a href=""><i class="fa fa-github"></i></a>
+                                <a href=""><i class="fa fa-youtube"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+
+                <div class="team-member mb-60 mb-sm-30 mb-xs-30">
+                        <div class="team-thumb">
+                            <img src="${url}/images/team/2.jpg" alt="Our Team Member">
+                        </div>
+                        <div class="team-content text-center">
+                            <h3>Le Khanh Vinh</h3>
+                            <p>Developper</p>
+                            <a href="#">lekhanhvinh@gmail.com</a>
+                            <div class="team-social">
+                                <a href="https://www.facebook.com/profile.php?id=100006565518989"><i class="fa fa-facebook"></i></a>
+                                <a href=""><i class="fa fa-github"></i></a>
+                                <a href=""><i class="fa fa-youtube"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div> <!-- end single team member -->
-<%--                <div class="col-lg-3 col-md-6 col-sm-6">--%>
-<%--                    <div class="team-member mb-60 mb-sm-30 mb-xs-30">--%>
-<%--                        <div class="team-thumb">--%>
-<%--                            <img src="images/team/2.png" alt="Our Team Member">--%>
-<%--                        </div>--%>
-<%--                        <div class="team-content text-center">--%>
-<%--                            <h3>Oliver Bastin</h3>--%>
-<%--                            <p>Web Designer</p>--%>
-<%--                            <a href="#">info@example.com</a>--%>
-<%--                            <div class="team-social">--%>
-<%--                                <a href="#"><i class="fa fa-facebook"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-github"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-youtube"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-google-plus"></i></a>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div> <!-- end single team member -->--%>
-<%--                <div class="col-lg-3 col-md-6 col-sm-6">--%>
-<%--                    <div class="team-member mb-30 mb-sm-60">--%>
-<%--                        <div class="team-thumb">--%>
-<%--                            <img src="images/team/3.png" alt="Our Team Member">--%>
-<%--                        </div>--%>
-<%--                        <div class="team-content text-center">--%>
-<%--                            <h3>Erik Jonson</h3>--%>
-<%--                            <p>Web Developer</p>--%>
-<%--                            <a href="#">info@example.com</a>--%>
-<%--                            <div class="team-social">--%>
-<%--                                <a href="#"><i class="fa fa-facebook"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-github"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-youtube"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-google-plus"></i></a>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div> <!-- end single team member -->--%>
-<%--                <div class="col-lg-3 col-md-6 col-sm-6">--%>
-<%--                    <div class="team-member mb-30 mb-sm-60 mb-xs-60">--%>
-<%--                        <div class="team-thumb">--%>
-<%--                            <img src="images/team/4.png" alt="Our Team Member">--%>
-<%--                        </div>--%>
-<%--                        <div class="team-content text-center">--%>
-<%--                            <h3>Maria Mandy</h3>--%>
-<%--                            <p>Marketing officer</p>--%>
-<%--                            <a href="#">info@example.com</a>--%>
-<%--                            <div class="team-social">--%>
-<%--                                <a href="#"><i class="fa fa-facebook"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-github"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-youtube"></i></a>--%>
-<%--                                <a href="#"><i class="fa fa-google-plus"></i></a>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div> <!-- end single team member -->--%>
+
             </div>
         </div>
     </div>

@@ -1,4 +1,8 @@
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<META HTTP-EQUIV="Content-language" CONTENT="vi">--%>
+
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <header>
     <c:url value="/Client" var="url"></c:url>
@@ -10,7 +14,7 @@
                 <div class="col-lg-3 col-md-4">
                     <div class="header-top-left">
                         <ul class="phone-wrap">
-                            <li><span>Telephone Enquiry:</span><a href="#">(+84)918948074</a></li>
+                            <li><span>Telephone Enquiry:</span>(+84)918948074</li>
                         </ul>
                     </div>
                 </div>
@@ -22,18 +26,18 @@
                             <!-- Begin Login-Register Area -->
 
                             <c:choose>
-                                <c:when test="${sessionScope.taiKhoan == null}">
-
+                                <c:when test="${empty sessionScope.taiKhoan }">
                                         <ul >
-                                            <li><a href="${pageContext.request.contextPath }/Client/login.jsp">Login</a>
+                                            <li><a href="${pageContext.request.contextPath }/index.jsp">Login</a>
                                                 | <a href="${pageContext.request.contextPath }/Client/register.jsp">Register</a></li>
                                         </ul>
 
                                 </c:when>
                                 <c:otherwise>
 
-                                            <li><a href="${pageContext.request.contextPath }/Client/my-account.jsp">My Account</a> | <a
-                                                    href="${pageContext.request.contextPath }/DangXuatController">Logout</a></li>
+                                            <li><a href="${pageContext.request.contextPath }/Client/my-account.jsp">My Account: <c:out value="${sessionScope.taiKhoan.hoTen}"></c:out>
+                                            </a> |
+                                                <a href="${pageContext.request.contextPath }/DangXuatController">Logout</a></li>
                                         </ul>
 
                                 </c:otherwise>
@@ -56,7 +60,7 @@
                 <!-- Begin Header Logo Area -->
                 <div class="col-lg-3">
                     <div class="logo pb-sm-30 pb-xs-30">
-                        <a href="${pageContext.request.contextPath }/Client/index.jsp">
+                        <a href="${pageContext.request.contextPath }/Client/home.jsp">
                             <img src="${pageContext.request.contextPath }/Client/images/menu/logo/1.png" alt="" style="height: 100%; width: 100%;">
                         </a>
                     </div>
@@ -65,8 +69,8 @@
                 <!-- Begin Header Middle Right Area -->
                 <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                     <!-- Begin Header Middle Searchbox Area  -->
-                    <form action="#" class="hm-searchbox">
-                        <input type="text" placeholder="Enter your search key ...">
+                    <form action="${pageContext.request.contextPath}/HangHoaTimKiemBangTen" method="get" class="hm-searchbox">
+                        <input type="text" placeholder="Enter your search key ..." name="tenSP" value="${tenSP}">
                         <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                     <!-- Header Middle Searchbox Area End Here -->
@@ -77,13 +81,13 @@
                             <li class="hm-wishlist">
                                 <a href="${pageContext.request.contextPath }/Client/wishlist.jsp">
                                     <c:choose>
-                                    <c:when test="${sessionScope.yeuThichSet == null}">
+                                    <c:when test="${empty sessionScope.yeuThichSet}">
                                         <span class="cart-item-count wishlist-item-count"></span>
                                         <i class="fa fa-heart-o"></i>
                                     </c:when>
                                     <c:otherwise>
                                         <span class="cart-item-count wishlist-item-count">
-                                                ${sessionScope.yeuThichSet.size()}
+                                                <c:out value="${sessionScope.yeuThichSet.size()}"/>
                                         </span>
                                         <i class="fa fa-heart-o"></i>
                                     </c:otherwise>
@@ -96,56 +100,46 @@
                                 <div class="hm-minicart-trigger">
                                     <span class="item-icon"></span>
                                     <span class="item-text">
-                                        <c:out value = "${sessionScope.gioHang.tongTien}"/>
+                                                    <fmt:setLocale value="vi_VN"/>
+                                                    <fmt:formatNumber value="${sessionScope.gioHang.tongTien}" type="currency"/>
+
                                                     <span class="cart-item-count">
-                                                        <c:out value = "${sessionScope.gioHangInfoSet.size()}"/></span>
+                                                    <c:if test="${not empty sessionScope.gioHangInfoSet}">
+                                                        <c:out value = "${sessionScope.gioHangInfoSet.size()}"/>
+                                                    </c:if>
+                                                    </span>
                                     </span>
                                 </div>
                                 <span></span>
                                 <div class="minicart">
                                     <ul class="minicart-product-list">
-
+<c:if test="${not empty sessionScope.gioHangInfoSet}">
                                         <c:forEach items = "${sessionScope.gioHangInfoSet}" var = "gioHangInfo">
                                         <li>
                                             <a href="" class="minicart-product-image">
-                                                <img src="images/product/small-size/5.jpg" alt="cart products">
+                                                <img src="data:image/jpg;base64,${gioHangInfo.hangHoa.base64Image}"  alt="Hinh Anh Bu"/>
                                             </a>
                                             <div class="minicart-product-details">
                                                 <h6>
-<%--                                                    <a href="">--%>
                                                     <c:out value="${gioHangInfo.primaryKey.hangHoa.tenSP}"></c:out>
-<%--                                                    </a>--%>
                                                 </h6>
-                                            <span> <c:out value = "${gioHangInfo.hangHoa.giaBan}"/>$ x <c:out value = "${gioHangInfo.hangHoa.soLuong}"/> </span>
+                                            <span>
+                                                  <fmt:setLocale value="vi_VN"/>
+                                                <fmt:formatNumber value="${gioHangInfo.primaryKey.hangHoa.giaBan}" type="currency"/>
+                                                x
+                                                <c:out value = "${gioHangInfo.soLuong}"/> </span>
                                             </div>
-                                            <button class="close" title="Remove"
-                                                    href="${pageContext.request.contextPath}/GioHangInfoRemoveController?MaSP=${gioHangInfo.hangHoa.maSP}">
+                                            <div class="close" title="Remove">
+                                                <a href="${pageContext.request.contextPath}/GioHangInfoRemoveController?maSP=${gioHangInfo.hangHoa.maSP}"/>
                                                 <i class="fa fa-close"></i>
-                                            </button>
+                                            </div>
 
 
                                         </li>
                                         </c:forEach>
-<%--                                        <li>--%>
-<%--                                            <a href="${pageContext.request.contextPath }/Client/single-product.jsp" class="minicart-product-image">--%>
-<%--                                                <img src="${pageContext.request.contextPath }/Client/images/product/small-size/6.jpg" alt="cart products">--%>
-<%--                                            </a>--%>
-<%--                                            <div class="minicart-product-details">--%>
-<%--&lt;%&ndash;                                                <h6><a href="${pageContext.request.contextPath }/Client/single-product.jsp">pro 2</a></h6>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                <span>40$ x 1</span>&ndash;%&gt;--%>
-<%--                                                --%>
-<%--                                                --%>
-<%--                                            </div>--%>
-<%--                                            <button class="close" title="Remove">--%>
-<%--                                                <i class="fa fa-close"></i>--%>
-<%--                                            </button>--%>
-<%--                                        </li>--%>
+</c:if>
                                     </ul>
 
-<%--                                    <c:set var="total" value="${0}"/>--%>
-<%--                                    <c:forEach var="article" items="${list}">--%>
-<%--                                        <c:set var="total" value="${total + article.price}" />--%>
-<%--                                    </c:forEach>--%>
 
                                     <p class="minicart-total">SUBTOTAL: <span><c:out value = "${sessionScope.gioHang.tongTien}"/></span></p>
                                     <div class="minicart-button">
@@ -177,11 +171,9 @@
                     <div class="hb-menu">
                         <nav>
                             <ul>
-                                <li><a href="${pageContext.request.contextPath }/Client/index.jsp">Home</a></li>
-                                <li><a href="${pageContext.request.contextPath }/Client/shop.jsp">Shop</a></li>
+                                <li><a href="${pageContext.request.contextPath }/Client/home.jsp">Home</a></li>
                                 <li><a href="${pageContext.request.contextPath }/Client/about-us.jsp">About Us</a></li>
                                 <li><a href="${pageContext.request.contextPath }/Client/contact.jsp">Contact</a></li>
-                                <li><a href="#">Another</a></li>
                             </ul>
                         </nav>
                     </div>

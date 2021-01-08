@@ -1,14 +1,17 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
+    <c:url value="/Admin" var="url"></c:url>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
+    <meta name="author" content="">
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
@@ -38,51 +41,144 @@
 </head>
 
 <body class="animsition">
-<jsp:include page="/Admin/HeaderAdmin.jsp" />
-<jsp:include page="/Admin/NavigationAdmin.jsp" />
+
 <div class="page-wrapper">
+<%--    <jsp:include page="/Admin/HeaderAdmin.jsp" />--%>
+<%--    <jsp:include page="/Admin/NavigationAdmin.jsp" />--%>
+
     <div class="page-content--bge5">
         <div class="container">
             <div class="login-wrap">
                 <div class="login-content">
                     <div class="login-logo">
                         <a href="#">
-                            <img src="images/icon/logo.png" alt="CoolAdmin">
+                            <img src="${url}/images/icon/logo.png" alt="CoolAdmin">
                         </a>
                     </div>
-                    <div class="login-form">
-                        <form action="" method="post">
+
+                    <div class="login-form" style="overflow: auto">
+                        <form action="${pageContext.request.contextPath}/TaiKhoanAddController" method="post">
+
                             <div class="form-group">
-                                <label>Username</label>
-                                <input class="au-input au-input--full" type="text" name="username" placeholder="Username">
+                                <c:choose>
+
+                                    <c:when test = "${not empty maTK}">
+                                        <input type="text" name="maTK" value="${maTK}" placeholder="Mã TK" class="form-control"  hidden readonly required>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <input type="text" name="maTK" value="0" placeholder="MaTK" class="form-control" readonly hidden required>
+                                    </c:otherwise>
+                                </c:choose>
+
                             </div>
+
                             <div class="form-group">
-                                <label>Email Address</label>
-                                <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
+                                <label>Name </label>
+                                <input class="au-input au-input--full" value="${hoTen}" type="text" name="hoTen" placeholder="Name" required>
                             </div>
+
+                            <div class="form-group">
+                                <label>Username  <c:out  value="${accountNameError}"/> </label>
+                                <input class="au-input au-input--full" type="text" value="${tenTK}" name="tenTK" placeholder="Username"required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email Address <c:out value="${emailError}"/> </label>
+                                <input class="au-input au-input--full" type="email" value="${email}" name="email" placeholder="Email"required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Address </label>
+                                <input class="au-input au-input--full" type="text" value="${diaChi}" name="diaChi" placeholder="Address"required>
+                            </div>
+
                             <div class="form-group">
                                 <label>Password</label>
-                                <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                <input class="au-input au-input--full" type="password" name="matKhau" placeholder="Password"required>
                             </div>
-                            <div class="login-checkbox">
-                                <label>
-                                    <input type="checkbox" name="aggree">Agree the terms and policy
-                                </label>
-                            </div>
-                            <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
-                            <div class="social-login-content">
-                                <div class="social-button">
-                                    <button class="au-btn au-btn--block au-btn--blue m-b-20">register with facebook</button>
-                                    <button class="au-btn au-btn--block au-btn--blue2">register with twitter</button>
+
+
+                            <fmt:formatDate var="varyear" value="${namSinh}" pattern="yyyy" />
+                            <fmt:formatDate var="varmonth" value="${namSinh}" pattern="MM" />
+                            <fmt:formatDate var="varday" value="${namSinh}" pattern="dd" />
+
+                            <div class="form-group">
+                                <LABEL>Birth Date</LABEL>
+                                <div class="form-group">
+                                    <label>Month</label>
+                                    <select name="month" >
+                                        <option value="1"   <c:if test= "${   1 == varmonth }" >
+                                            selected
+                                        </c:if>>
+                                            January</option>
+                                        <option value="2" <c:if test= "${   2 == varmonth }" >
+                                            selected
+                                        </c:if>>February</option>
+                                        <option value="3"<c:if test= "${   3 == varmonth }" >
+                                            selected
+                                        </c:if>>March</option>
+                                        <option value="4"<c:if test= "${   4 == varmonth }" >
+                                            selected
+                                        </c:if>>April</option>
+                                        <option value="5"<c:if test= "${   5 == varmonth }" >
+                                            selected
+                                        </c:if>>May</option>
+                                        <option value="6"<c:if test= "${   6  == varmonth }" >
+                                            selected
+                                        </c:if>>June</option>
+                                        <option value="7"<c:if test= "${   7 == varmonth }" >
+                                            selected
+                                        </c:if>>July</option>
+                                        <option value="8"<c:if test= "${   8 == varmonth }" >
+                                            selected
+                                        </c:if>>August</option>
+                                        <option value="9"<c:if test= "${   9 == varmonth }" >
+                                            selected
+                                        </c:if>>September</option>
+                                        <option value="10"<c:if test= "${   10 == varmonth }" >
+                                            selected
+                                        </c:if>>October</option>
+                                        <option value="11"<c:if test= "${   11 == varmonth }" >
+                                            selected
+                                        </c:if>>November</option>
+                                        <option value="12"<c:if test= "${   12 == varmonth }" >
+                                            selected
+                                        </c:if>>December</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Day</label>
+                                    <select name="day">
+                                        <c:forEach begin="1" end="31" var="forday">
+                                            <option
+                                                    <c:if test= "${   forday == varday}" >
+                                                        selected
+                                                    </c:if>>
+                                                <c:out value="${forday}"/>
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Year</label>
+
+                                    <select name="year">
+                                        <c:forEach begin="1950" end="2010" var="foryear">
+                                            <option
+                                                    <c:if test= "${   foryear == varyear }" >
+                                                        selected
+                                                    </c:if>>
+                                                <c:out value="${foryear}"/>
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+
                                 </div>
                             </div>
+
+                            <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">register</button>
+                            <a class="au-btn au-btn--block au-btn--green m-b-20" href="${url}/AccountsList.jsp">Cancel</a>
                         </form>
-                        <div class="register-link">
-                            <p>
-                                Already have account?
-                                <a href="#">Sign In</a>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>

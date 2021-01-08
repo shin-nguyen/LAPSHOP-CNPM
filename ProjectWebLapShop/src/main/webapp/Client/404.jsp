@@ -5,51 +5,56 @@
   Time: 10:16 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<META HTTP-EQUIV="Content-language" CONTENT="vi">--%>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <!-- 40432:14-->
 <head>
+    <c:url value="/Client" var="url"></c:url>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>404 Error</title>
+    <title>Error</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="shortcut icon"  href="${url}/images/favicon.png">
     <!-- Material Design Iconic Font-V2.2.0 -->
-    <link rel="stylesheet" href="css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="${url}/css/material-design-iconic-font.min.css">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="${url}/css/font-awesome.min.css">
     <!-- Font Awesome Stars-->
-    <link rel="stylesheet" href="css/fontawesome-stars.css">
+    <link rel="stylesheet" href="${url}/css/fontawesome-stars.css">
     <!-- Meanmenu CSS -->
-    <link rel="stylesheet" href="css/meanmenu.css">
+    <link rel="stylesheet" href="${url}/css/meanmenu.css">
     <!-- owl carousel CSS -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="${url}/css/owl.carousel.min.css">
     <!-- Slick Carousel CSS -->
-    <link rel="stylesheet" href="css/slick.css">
+    <link rel="stylesheet" href="${url}/css/slick.css">
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="${url}/css/animate.css">
     <!-- Jquery-ui CSS -->
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" href="${url}/css/jquery-ui.min.css">
     <!-- Venobox CSS -->
-    <link rel="stylesheet" href="css/venobox.css">
+    <link rel="stylesheet" href="${url}/css/venobox.css">
     <!-- Nice Select CSS -->
-    <link rel="stylesheet" href="css/nice-select.css">
+    <link rel="stylesheet" href="${url}/css/nice-select.css">
     <!-- Magnific Popup CSS -->
-    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="${url}/css/magnific-popup.css">
     <!-- Bootstrap V4.1.3 Fremwork CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="${url}/css/bootstrap.min.css">
     <!-- Helper CSS -->
-    <link rel="stylesheet" href="css/helper.css">
+    <link rel="stylesheet" href="${url}/css/helper.css">
     <!-- Main Style CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="${url}/style.css">
     <!-- Responsive CSS -->
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="${url}/css/responsive.css">
     <!-- Modernizr js -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="${url}/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body>
 <!--[if lt IE 8]>
@@ -64,7 +69,7 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="index.jsp">Home</a></li>
+                    <li><a href="${url}/home.jsp">Home</a></li>
                     <li class="active">404 Error</li>
                 </ul>
             </div>
@@ -82,14 +87,9 @@
                             <h2>Opps! PAGE NOT BE FOUND</h2>
                             <p>Sorry but the page you are looking for does not exist, have been removed, <br> name changed or is temporarity unavailable.</p>
                         </div>
-                        <div class="search-error">
-                            <form id="search-form" action="#">
-                                <input type="text" placeholder="Search">
-                                <button><i class="zmdi zmdi-search"></i></button>
-                            </form>
-                        </div>
+
                         <div class="error-button">
-                            <a href="index.jsp">Back to home page</a>
+                            <a href="${pageContext.request.contextPath }/WaitingController">Back to home page</a>
                         </div>
                     </div>
                 </div>
@@ -102,49 +102,48 @@
 </div>
 <!-- Body Wrapper End Here -->
 <!-- jQuery-V1.12.4 -->
-<script src="js/vendor/jquery-1.12.4.min.js"></script>
+<script src="${url}/js/vendor/jquery-1.12.4.min.js"></script>
 <!-- Popper js -->
-<script src="js/vendor/popper.min.js"></script>
+<script src="${url}/js/vendor/popper.min.js"></script>
 <!-- Bootstrap V4.1.3 Fremwork js -->
-<script src="js/bootstrap.min.js"></script>
+<script src="${url}/js/bootstrap.min.js"></script>
 <!-- Ajax Mail js -->
-<script src="js/ajax-mail.js"></script>
+<script src="${url}/js/ajax-mail.js"></script>
 <!-- Meanmenu js -->
-<script src="js/jquery.meanmenu.min.js"></script>
+<script src="${url}/js/jquery.meanmenu.min.js"></script>
 <!-- Wow.min js -->
-<script src="js/wow.min.js"></script>
+<script src="${url}/js/wow.min.js"></script>
 <!-- Slick Carousel js -->
-<script src="js/slick.min.js"></script>
+<script src="${url}/js/slick.min.js"></script>
 <!-- Owl Carousel-2 js -->
-<script src="js/owl.carousel.min.js"></script>
+<script src="${url}/js/owl.carousel.min.js"></script>
 <!-- Magnific popup js -->
-<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="${url}/js/jquery.magnific-popup.min.js"></script>
 <!-- Isotope js -->
-<script src="js/isotope.pkgd.min.js"></script>
+<script src="${url}/js/isotope.pkgd.min.js"></script>
 <!-- Imagesloaded js -->
-<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="${url}/js/imagesloaded.pkgd.min.js"></script>
 <!-- Mixitup js -->
-<script src="js/jquery.mixitup.min.js"></script>
+<script src="${url}/js/jquery.mixitup.min.js"></script>
 <!-- Countdown -->
-<script src="js/jquery.countdown.min.js"></script>
+<script src="${url}/js/jquery.countdown.min.js"></script>
 <!-- Counterup -->
-<script src="js/jquery.counterup.min.js"></script>
+<script src="${url}/js/jquery.counterup.min.js"></script>
 <!-- Waypoints -->
-<script src="js/waypoints.min.js"></script>
+<script src="${url}/js/waypoints.min.js"></script>
 <!-- Barrating -->
-<script src="js/jquery.barrating.min.js"></script>
+<script src="${url}/js/jquery.barrating.min.js"></script>
 <!-- Jquery-ui -->
-<script src="js/jquery-ui.min.js"></script>
+<script src="${url}/js/jquery-ui.min.js"></script>
 <!-- Venobox -->
-<script src="js/venobox.min.js"></script>
+<script src="${url}/js/venobox.min.js"></script>
 <!-- Nice Select js -->
-<script src="js/jquery.nice-select.min.js"></script>
+<script src="${url}/js/jquery.nice-select.min.js"></script>
 <!-- ScrollUp js -->
-<script src="js/scrollUp.min.js"></script>
+<script src="${url}/js/scrollUp.min.js"></script>
 <!-- Main/Activator js -->
-<script src="js/main.js"></script>
+<script src="${url}/js/main.js"></script>
 </body>
-
 <!-- 40432:14-->
 </html>
 

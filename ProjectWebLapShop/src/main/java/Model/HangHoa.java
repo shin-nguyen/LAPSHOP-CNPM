@@ -1,6 +1,9 @@
 package Model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
+import java.util.Base64;
 import java.util.Objects;
 
 /*
@@ -21,12 +24,15 @@ public class HangHoa {
 	private String ManHinh;
 	private String PIN;
 	private  String MoTa;
+	private float Sao;
 	private byte[] Hinh;
+	private String base64Image;
+
 	public HangHoa() {
 	}
 
 	public HangHoa(int maSP, NSX NSX, String tenSP, int giaBan, int giaGoc, int soLuong,
-				   String cPU, String rAM, String oCung, String manHinh, String pIN, String moTa,byte[] hinh) {
+				   String cPU, String rAM, String oCung, String manHinh, String pIN, String moTa,float sao,byte[] hinh) {
 		super();
 		this.MaSP = maSP;
 		this.NSX = NSX;
@@ -40,10 +46,11 @@ public class HangHoa {
 		this.ManHinh = manHinh;
 		this.PIN = pIN;
 		this.MoTa = moTa;
+		this.Sao = sao;
 		Hinh = hinh;
 	}
 
-	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MaNSX", nullable = false,referencedColumnName = "MaNSX"	)
 	public Model.NSX getNSX() {
 		return NSX;
@@ -135,8 +142,8 @@ public class HangHoa {
 		TenSP = tenSP;
 	}
 
-	@Lob
-	@Column(name = "Hinh", nullable = true,columnDefinition="mediumblob")
+
+	@Column(name = "Hinh", nullable = true)
 	public byte[] getHinh() {
 		return Hinh;
 	}
@@ -144,7 +151,7 @@ public class HangHoa {
 		Hinh = hinh;
 	}
 
-	@Column(name = "MoTa", nullable = false)
+	@Column(name = "MoTa", nullable = true)
 	public String getMoTa() {
 		return MoTa;
 	}
@@ -153,9 +160,28 @@ public class HangHoa {
 		MoTa = moTa;
 	}
 
+	@Column(name="Sao", nullable = true)
+	public float getSao() {
+		return Sao;
+	}
+
+	public void setSao(float sao) {
+		Sao = sao;
+	}
+
+	@Transient
+	public String getBase64Image() {
+		base64Image = Base64.getEncoder().encodeToString(this.Hinh);
+		return base64Image;
+	}
+
+	public void setBase64Image(String base64Image) {
+		this.base64Image = base64Image;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(getMaSP(),getCPU(),getGiaBan(),getGiaGoc(),getHinh(),getManHinh(),getMoTa(),getNSX().getMaNSX(),getOCung(),getPIN(),getRAM(),getSoLuong(),getTenSP());
+		return Objects.hash(getMaSP(),getNSX().getMaNSX());
 	}
 	@Override
 	public boolean equals(Object o) {
@@ -163,17 +189,6 @@ public class HangHoa {
 		if (!(o instanceof HangHoa)) return false;
 		HangHoa that = (HangHoa) o;
 		return Objects.equals(getMaSP(), that.getMaSP())&&
-				Objects.equals(getCPU(), that.getCPU()) &&
-				Objects.equals(getGiaBan(), that.getGiaBan()) &&
-				Objects.equals(getGiaGoc(), that.getGiaGoc()) &&
-				Objects.equals(getHinh(), that.getHinh()) &&
-				Objects.equals(getManHinh(), that.getManHinh()) &&
-				Objects.equals(getMoTa(), that.getMoTa()) &&
-				Objects.equals(getNSX().getMaNSX(), that.getNSX().getMaNSX()) &&
-				Objects.equals(getOCung(), that.getOCung()) &&
-				Objects.equals(getPIN(), that.getPIN()) &&
-				Objects.equals(getRAM(), that.getRAM()) &&
-				Objects.equals(getSoLuong(), that.getSoLuong()) &&
-				Objects.equals(getTenSP(), that.getTenSP());
+				Objects.equals(getNSX().getMaNSX(), that.getNSX().getMaNSX());
 	}
 }

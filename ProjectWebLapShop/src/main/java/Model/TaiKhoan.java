@@ -2,6 +2,7 @@ package Model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -19,7 +20,7 @@ public class TaiKhoan {
 	private String HoTen;
 	private Date NamSinh;
 	private String DiaChi;
-	private int Chan;
+
 	private  int PhanQuyen;
 	private String Email;
 
@@ -27,7 +28,7 @@ public class TaiKhoan {
 
 	}
 
-	public TaiKhoan(int maTK, String tenTK, String matKhau, int phanQuyen, String hoTen, Date namSinh, String diaChi, String email, int chan) {
+	public TaiKhoan(int maTK, String tenTK, String matKhau, int phanQuyen, String hoTen, Date namSinh, String diaChi, String email) {
 		super();
 		this.MaTK= maTK;
 		this.TenTK = tenTK;
@@ -35,7 +36,6 @@ public class TaiKhoan {
 		this.HoTen = hoTen;
 		this.NamSinh = namSinh;
 		this.DiaChi = diaChi;
-		this.Chan = chan;
 		this.PhanQuyen = phanQuyen;
 		this.Email = email;
 	}
@@ -64,15 +64,6 @@ public class TaiKhoan {
 	}
 	public void setNamSinh(Date namSinh) {
 		NamSinh = namSinh;
-	}
-
-
-	@Column(name = "Chan", nullable = false)
-	public int getChan() {
-		return Chan;
-	}
-	public void setChan(int chan) {
-		Chan = chan;
 	}
 
 	@Id
@@ -121,39 +112,18 @@ public class TaiKhoan {
 		return TenTK;
 	}
 
-//	@Override
-//	public boolean equals(Object o) {
-//		if (this == o) return true;
-//		if (o == null || getClass() != o.getClass()) return false;
-//
-//		TaiKhoan that = (TaiKhoan) o;
-//
-//		if (MaTK != that.MaTK) return false;
-//		if (TenTK != null ? !TenTK.equals(that.TenTK) : that.TenTK != null) return false;
-//		if (MatKhau != null ? !MatKhau.equals(that.MatKhau) : that.MatKhau != null) return false;
-////		if (maPq != null ? !maPq.equals(that.maPq) : that.maPq != null) return false;
-//		if (HoTen != null ? !HoTen.equals(that.HoTen) : that.HoTen != null) return false;
-//		if (NamSinh != null ? !NamSinh.equals(that.NamSinh) : that.NamSinh != null) return false;
-//		if (DiaChi != null ? !DiaChi.equals(that.DiaChi) : that.DiaChi != null) return false;
-//		if (Email != null ? !Email.equals(that.Email) : that.Email != null) return false;
-//		if (Chan != null ? !Chan.equals(that.Chan) : that.Chan != null) return false;
-//
-//		return true;
-//	}
-//
-//	@Override
-//	public int hashCode() {
-//		int result = MaTK;
-//		result = 31 * result + (TenTK != null ? TenTK.hashCode() : 0);
-//		result = 31 * result + (MatKhau != null ? MatKhau.hashCode() : 0);
-////		result = 31 * result + (maPq != null ? maPq.hashCode() : 0);
-//		result = 31 * result + (HoTen != null ? HoTen.hashCode() : 0);
-//		result = 31 * result + (NamSinh != null ? NamSinh.hashCode() : 0);
-//		result = 31 * result + (DiaChi != null ? DiaChi.hashCode() : 0);
-//		result = 31 * result + (Email != null ? Email.hashCode() : 0);
-//		result = 31 * result + (Chan != null ? Chan.hashCode() : 0);
-//		return result;
-//	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(getMaTK());
+	}
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof TaiKhoan)) return false;
+		TaiKhoan that = (TaiKhoan) o;
+		return Objects.equals(getMaTK(), that.getMaTK());
+
+	}
 
 
 

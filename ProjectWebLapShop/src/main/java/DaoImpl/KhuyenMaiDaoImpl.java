@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -76,12 +77,12 @@ public class KhuyenMaiDaoImpl implements KhuyenMaiDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        KhuyenMai khuyenMai = new KhuyenMai();
         try{
             tx = session.beginTransaction();
 
-            KhuyenMai khuyenMai = (KhuyenMai)session.createCriteria(KhuyenMai.class)
-                    .add(Restrictions.eq("MaKhuyenMai", MaKhuyenMai)).uniqueResult();
+            khuyenMai = (KhuyenMai)session.createCriteria(KhuyenMai.class)
+                    .add(Restrictions.eq("maKhuyenMai", MaKhuyenMai)).uniqueResult();
             tx.commit();
 
             return khuyenMai;
@@ -93,7 +94,7 @@ public class KhuyenMaiDaoImpl implements KhuyenMaiDao {
             session.close();
 
         }
-        return  null;
+        return  khuyenMai;
     }
 
     @Override
@@ -122,7 +123,7 @@ public class KhuyenMaiDaoImpl implements KhuyenMaiDao {
             session.close();
 
         }
-        return  null;
+        return  khuyenMai;
     }
 
     @Override
@@ -130,14 +131,14 @@ public class KhuyenMaiDaoImpl implements KhuyenMaiDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<KhuyenMai> khuyenMaiList = new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
-            List khuyenMai = session.createCriteria(KhuyenMai.class).list();
+             khuyenMaiList = session.createCriteria(KhuyenMai.class).list();
             tx.commit();
 
-            return khuyenMai;
+            return khuyenMaiList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -146,7 +147,7 @@ public class KhuyenMaiDaoImpl implements KhuyenMaiDao {
             session.close();
 
         }
-        return  null;
+        return  khuyenMaiList;
     }
 
     @Override
@@ -154,16 +155,16 @@ public class KhuyenMaiDaoImpl implements KhuyenMaiDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<KhuyenMai> khuyenMaiList = new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
-            List khuyenMai = session.createCriteria(KhuyenMai.class)
-                    .add(Restrictions.lt("NgayBatDau", new Date()))
-                    .add(Restrictions.ge("NgayKetThuc", new Date())).list();
+            khuyenMaiList= session.createCriteria(KhuyenMai.class)
+                    .add(Restrictions.lt("ngayBatDau", new Date()))
+                    .add(Restrictions.ge("ngayKetThuc", new Date())).list();
             tx.commit();
 
-            return khuyenMai;
+            return khuyenMaiList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -172,6 +173,6 @@ public class KhuyenMaiDaoImpl implements KhuyenMaiDao {
             session.close();
 
         }
-        return  null;
+        return  khuyenMaiList;
     }
 }

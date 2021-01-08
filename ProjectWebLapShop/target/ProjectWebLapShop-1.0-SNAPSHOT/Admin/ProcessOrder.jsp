@@ -1,19 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
+    <c:url value="/Admin" var="url"></c:url>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
+    <meta name="author" content="">
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
-
+    <title>CartList</title>
 
     <!-- Fontfaces CSS-->
     <link href="${url}/css/font-face.css" rel="stylesheet" media="all">
@@ -36,10 +37,13 @@
     <!-- Main CSS-->
     <link href="${url}/css/theme.css" rel="stylesheet" media="all">
 
+
 </head>
-<body class="animsition"><jsp:include page="/Admin/HeaderAdmin.jsp" />
-<jsp:include page="/Admin/NavigationAdmin.jsp" />
+<body class="animsition">
 <div class="page-wrapper">
+    <jsp:include page="/Admin/HeaderAdmin.jsp" />
+    <jsp:include page="/Admin/NavigationAdmin.jsp" />
+
     <!-- MAIN CONTENT-->
     <div class="page-container">
         <div class="main-content">
@@ -48,54 +52,78 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="card">
-                                <div class="card-header">Mã giỏ hàng:...</div>
+                                <div class="card-header">Cart </div>
                                 <div class="card-body">
-                                    <div class="card-title">
-                                        <h3 class="text-center title-2">Thanh toán</h3>
-                                    </div>
                                     <hr>
-                                    <form action="" method="post" novalidate="novalidate">
+                                    <form action="${pageContext.request.contextPath}/GioHangController" method="post" novalidate="novalidate">
                                         <div class="form-group">
-                                            <label for="cc-payment" class="control-label mb-1">ID Khách hàng</label>
-                                            <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" value="">
+                                            <label  class="control-label mb-1">Name</label>
+                                            <label > <c:out value="${gioHang.taiKhoan.tenTK}"/> </label>
                                         </div>
                                         <div class="form-group has-success">
-                                            <label for="cc-name" class="control-label mb-1">Tổng tiền</label>
-                                            <input id="cc-name" name="cc-name" type="text" class="form-control cc-name valid" data-val="true" data-val-required="Please enter the name on card"
-                                                   autocomplete="cc-name" aria-required="true" aria-invalid="false" aria-describedby="cc-name-error">
-                                            <span class="help-block field-validation-valid" data-valmsg-for="cc-name" data-valmsg-replace="true"></span>
+                                            <label for="cc-name" class="control-label mb-1">Total money</label>
+
+                                            <fmt:setLocale value="vi_VN"/>
+                                            <label> <fmt:formatNumber value="${gioHang.tongTien}" type="currency"/></label>
+                                        </div>
+                                        <div class="form-group has-success">
+                                            <label for="cc-name" class="control-label mb-1">Date</label>
+                                            <label><fmt:formatDate pattern = "yyyy-MM-dd"  value = "${gioHang.thoiGian}" /></label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label mb-1">Adress</label>
+                                            <div class="col-12 col-md-12">
+                                                <label> <c:out value="${gioHang.diaChi}"/></label>
+                                            </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="cc-number" class="control-label mb-1">Địa chỉ giao hàng</label>
+                                            <label class="control-label mb-1">Content</label>
                                             <div class="col-12 col-md-12">
-                                                <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label for="cc-exp" class="control-label mb-1">Ngày đặt hàng</label>
-                                                    <input id="cc-exp" name="cc-exp" type="tel" class="form-control cc-exp" value="" data-val="true" data-val-required="Please enter the card expiration"
-                                                           data-val-cc-exp="Please enter a valid month and year" placeholder="MM / YY"
-                                                           autocomplete="cc-exp">
-                                                    <span class="help-block" data-valmsg-for="cc-exp" data-valmsg-replace="true"></span>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <label for="x_card_code" class="control-label mb-1">Tình trạng giao hàng</label>
-                                                <div class="input-group">
-                                                    <input id="x_card_code" name="x_card_code" type="tel" class="form-control cc-cvc" value="" data-val="true" data-val-required="Please enter the security code"
-                                                           data-val-cc-cvc="Please enter a valid security code" autocomplete="off">
+                                                <textarea name="moTa"  id="textarea-input" rows="9" placeholder="Content..." class="form-control">
 
-                                                </div>
+                                                </textarea>
                                             </div>
                                         </div>
+
+                                        <div class="form-group has-success">
+                                            <label for="cc-name" class="control-label mb-1">Status</label>
+
+                                            <div class="col-12 col-md-12">
+                                                <select name="trangThai" id="cc-name" class="form-control-sm form-control">
+
+                                                    <option value="1" <c:if test= "${   1 == gioHang.trangThai }" >
+                                                        selected
+                                                    </c:if>>
+                                                        Unconfirmed</option>
+                                                    <option value="2"<c:if test= "${   2 == gioHang.trangThai }" >
+                                                        selected
+                                                    </c:if>>
+                                                        Being transported </option>
+                                                    <option value="3"<c:if test= "${   3 == gioHang.trangThai }" >
+                                                        selected
+                                                    </c:if>>
+                                                        Successful receipt </option>
+                                                    <option value="4"<c:if test= "${   4 == gioHang.trangThai }" >
+                                                        selected
+                                                    </c:if>>
+                                                        No receipt</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <input name="maGioHang" value="${gioHang.maGioHang}" hidden readonly>
                                         <div>
                                             <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
                                                 <i class="fa fa-lock fa-lg"></i>&nbsp;
-                                                <span id="payment-button-amount">Xác nhận thanh toán</span>
+                                                <span id="payment-button-amount">Xác nhận</span>
                                                 <span id="payment-button-sending" style="display:none;">Sending…</span>
                                             </button>
+                                            <a href="${pageContext.request.contextPath}/GioHangController?trangThai=All" class="btn btn-lg btn-info btn-block">
+                                                <i class="fa fa-lock fa-lg"></i>&nbsp;
+                                                <span >Tro Ve</span>
+
+                                            </a>
                                         </div>
                                     </form>
                                 </div>
@@ -103,40 +131,35 @@
                         </div>
                         <div class="col-6">
                             <div class="card">
-                                <div class="card-header">Mã giỏ hàng:...</div>
+                                <div class="card-header">Cart Info</div>
                                 <div class="card-body">
-                                    <div class="card-title">
-                                        <h3 class="text-center title-2">Thông tin giỏ hàng</h3>
-                                    </div>
+
                                     <hr>
-                                    <form action="" method="post" novalidate="novalidate">
+
+
                                         <div class="form-group">
-                                            <label for="cc-payment" class="control-label mb-1">ID Khách hàng</label>
-                                            <input id="cc-pament" name="cc-payment" type="text" class="form-control" aria-required="true" aria-invalid="false" value="">
-                                        </div>
-                                        <div class="form-group has-success">
-                                            <label for="cc-name" class="control-label mb-1">Danh sách sản phẩm</label>
+                                            <label  class="control-label mb-1">Info</label>
+<c:if test="${not empty gioHangInfoList}">
+                                            <c:forEach items = "${gioHangInfoList}" var = "gioHangInfo">
+                                                <div class="col-lg-12">
+                                                    <!-- single-product-wrap start -->
+                                                    <div class="single-product-wrap">
+                                                        <tr class="cart_item">
+                                                            <div class="cart-product-name">
+                                                                <c:out value="${gioHangInfo.hangHoa.tenSP}"/>
+                                                                <strong class="product-quantity"><c:out value="${gioHangInfo.soLuong}"></c:out> </strong>
+                                                            </div>
+                                                        </tr>
+                                                    </div>
+                                                    <!-- single-product-wrap end -->
+                                                </div>
+                                            </c:forEach>
+</c:if>
 
-                                            <div class="col-12 col-md-12">
-                                                <select name="selectSm" id="cc-name" class="form-control-sm form-control">
-                                                    <option value="0">Please select</option>
-                                                    <option value="1">Option #1</option>
-                                                    <option value="2">Option #2</option>
-                                                    <option value="3">Option #3</option>
-                                                    <option value="4">Option #4</option>
-                                                    <option value="5">Option #5</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="cc-number" class="control-label mb-1">Thông tin sản phẩm</label>
-                                            <div class="col-12 col-md-12">
-                                                <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea>
-                                            </div>
                                         </div>
 
 
-                                    </form>
+
                                 </div>
                             </div>
                         </div>

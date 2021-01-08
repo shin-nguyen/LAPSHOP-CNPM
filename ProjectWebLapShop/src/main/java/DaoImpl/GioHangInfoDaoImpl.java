@@ -1,14 +1,13 @@
 package DaoImpl;
 
 import Dao.GioHangInfoDao;
+import Model.BinhLuan;
 import Model.GioHangInfo;
 import Util.HibernateUtil;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GioHangInfoDaoImpl implements GioHangInfoDao {
@@ -71,6 +70,39 @@ public class GioHangInfoDaoImpl implements GioHangInfoDao {
         }
     }
 
+    @Override
+    public Boolean checkTonTaiSP(int MaSP,int MaTK) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        GioHangInfo gioHangInfo = new GioHangInfo();
+        try{
+            tx = session.beginTransaction();
+
+            String hql = "FROM GioHangInfo gh  where gh.primaryKey.gioHang.taiKhoan.maTK = :maTK and gh.primaryKey.hangHoa.maSP = :maSP";
+            Query query = session.createQuery(hql).setParameter("maTK",MaTK).setParameter("maSP",MaSP);
+            gioHangInfo = (GioHangInfo)
+                    query.uniqueResult();
+
+            tx.commit();
+
+            if (gioHangInfo!=null){
+                return  true;
+            }
+            else{
+                return false;
+            }
+
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+
+        }
+        return  false;
+    }
+
 //    @Override
 //    public void deleteAll(GioHang gioHang) {
 //
@@ -100,7 +132,7 @@ public class GioHangInfoDaoImpl implements GioHangInfoDao {
             session.close();
 
         }
-        return  null;
+        return  gioHangInfo;
     }
 
     @Override
@@ -108,16 +140,16 @@ public class GioHangInfoDaoImpl implements GioHangInfoDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+List<GioHangInfo> gioHangInfoList = new ArrayList<>();
         try{
             tx = session.beginTransaction();
 
 
-            List gioHangInfo =  session.createCriteria(GioHangInfo.class)
+            gioHangInfoList =  session.createCriteria(GioHangInfo.class)
                     .add(Restrictions.eq("primaryKey.gioHang.maGioHang", MaGioHang)).list();
             tx.commit();
 
-            return gioHangInfo;
+            return gioHangInfoList;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -126,6 +158,6 @@ public class GioHangInfoDaoImpl implements GioHangInfoDao {
             session.close();
 
         }
-        return  null;
+        return  gioHangInfoList;
     }
 }

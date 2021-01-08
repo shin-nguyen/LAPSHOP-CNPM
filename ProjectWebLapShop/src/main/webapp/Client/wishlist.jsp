@@ -1,5 +1,8 @@
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<META HTTP-EQUIV="Content-language" CONTENT="vi">--%>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <html>
@@ -61,7 +64,7 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="${url}/Client/index.jsp">Home</a></li>
+                    <li><a href="${url}/home.jsp">Home</a></li>
                     <li class="active">Wishlist</li>
                 </ul>
             </div>
@@ -87,24 +90,37 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
+<c:if test="${not empty sessionScope.yeuThichSet}">
                                 <c:forEach items = "${sessionScope.yeuThichSet}" var = "set">
                                     <tr>
-                                        <td class="li-product-remove"><a
-                                            href="${pageContext.request.contextPath}/YeuThichController?MaSP=${set.hangHoa.maSP}">
-                                        <i class="fa fa-times"></i>
+                                        <td class="li-product-remove">
+                                            <a href="${pageContext.request.contextPath}/YeuThichController?maSP=${set.hangHoa.maSP}&duongDan=wishlist">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+                                        </td>
 
-                                        </a></td>
 
+                                        <td class="li-product-thumbnail">
+                                            <a href="${pageContext.request.contextPath}/HangHoaChiTietController?maSP=${set.hangHoa.maSP}">
+                                            <img src="data:image/jpg;base64,${set.hangHoa.base64Image}"  alt="product image"/>
+                                            </a>
+                                        </td>
+                                        <td class="li-product-name">
+                                            <a href="${pageContext.request.contextPath}/HangHoaChiTietController?maSP=${set.hangHoa.maSP}">
+                                                <c:out value = "${set.hangHoa.tenSP}"/>
+                                            </a>
+                                        </td>
 
-                                        <td class="li-product-thumbnail"><a href="#">
-                                            <img src="data:image/jpg;base64,${set.hangHoa.hinh}}" alt="product image">
-                                        </a></td>
-                                        <td class="li-product-name"><a href="#"> <c:out value = "${set.hangHoa.tenSP}"/></a></td>
-                                        <td class="li-product-price"><span class="amount"><c:out value = "${set.hangHoa.giaBan}"/></span></td>
-                                        <td class="li-product-stock-status"><span class="in-stock">
+                                        <td class="li-product-price">
+                                            <span class="amount">
+                                                <fmt:setLocale value="vi_VN"/>
+                                                    <fmt:formatNumber value="${set.hangHoa.giaBan}" type="currency"/>
+                                            </span>
+                                        </td>
+                                        <td class="li-product-stock-status">
+                                            <span class="in-stock">
                                             <c:choose>
-                                                <c:when test="${set.hangHoa.giaBan >0}">
+                                                <c:when test="${set.hangHoa.soLuong >0}">
                                                     in stock
                                                 </c:when>
                                                 <c:otherwise>
@@ -112,12 +128,14 @@
                                                 </c:otherwise>
                                             </c:choose>
 
-                                        </span></td>
+                                            </span>
+                                        </td>
                                         <td class="li-product-add-cart">
 
-                                            <a href="${pageContext.request.contextPath}/GioHangInfoAddController?MaSP=${set.hangHoa.maSP}"> add to cart</a></td>
+                                            <a href="${pageContext.request.contextPath}/GioHangInfoAddController?maSP=${set.hangHoa.maSP}&soLuong=1"> add to cart</a>
+                                        </td>
                                     </tr>
-                                </c:forEach>
+                                </c:forEach></c:if>
                                 </tbody>
                             </table>
                         </div>

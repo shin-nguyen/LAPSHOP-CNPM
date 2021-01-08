@@ -16,10 +16,7 @@ public class GioHangInfoServiceImpl implements GioHangInfoService {
 
     @Override
     public void edit(GioHangInfo gioHangInfo) {
-        GioHangInfo gioHangInfoCu = gioHangInfoDao.get(gioHangInfo.getGioHang().getMaGioHang(),gioHangInfo.getHangHoa().getMaSP());
-
-        gioHangInfoCu.setSoLuong(gioHangInfo.getSoLuong());
-        gioHangInfoDao.edit(gioHangInfoCu);
+        gioHangInfoDao.edit(gioHangInfo);
     }
 
     @Override
@@ -38,6 +35,10 @@ public class GioHangInfoServiceImpl implements GioHangInfoService {
         return gioHangInfoDao.get(MaGioHang);
     }
 
+    @Override
+    public Boolean checkTonTaiSP(int MaSP, int MaTK) {
+        return gioHangInfoDao.checkTonTaiSP(MaSP,MaTK);
+    }
 
 
 }

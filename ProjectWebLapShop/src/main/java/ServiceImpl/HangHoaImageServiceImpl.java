@@ -33,6 +33,11 @@ hangHoaImageDao.delete(hangHoaImage);
     }
 
     @Override
+    public void deleteAll(int maSP) {
+        hangHoaImageDao.deleteAll(maSP);
+    }
+
+    @Override
     public List<HangHoaImage> getByMaSP(int MaSP) {
         return hangHoaImageDao.getByMaSP(MaSP);
     }

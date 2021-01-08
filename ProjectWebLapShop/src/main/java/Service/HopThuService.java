@@ -10,6 +10,7 @@ public interface HopThuService {
     void delete(HopThu hopThu);
 
     HopThu get(int maHopThu);
-
+    List<HopThu> getTrangThai(String trangThai);
+    public HopThu getByTraLoi(int maHopThu);
     List<HopThu> getAll();
 }

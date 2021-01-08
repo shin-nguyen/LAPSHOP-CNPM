@@ -11,6 +11,7 @@ public interface GioHangInfoDao {
 
     void delete(GioHangInfo gioHangInfo);
 //    void deleteAll(GioHang gioHang);
+    Boolean checkTonTaiSP(int MaSP,int MaTK);
     GioHangInfo get(int MaGioHang, int MaSP);
     List<GioHangInfo> get(int MaGioHang);
 

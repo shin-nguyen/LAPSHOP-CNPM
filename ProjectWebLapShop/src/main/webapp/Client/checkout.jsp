@@ -5,8 +5,11 @@
   Time: 10:14 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<META HTTP-EQUIV="Content-language" CONTENT="vi">--%>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -68,7 +71,7 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="${url}/index.jsp">Home</a></li>
+                    <li><a href="${url}/home.jsp">Home</a></li>
                     <li class="active">Checkout</li>
                 </ul>
             </div>
@@ -88,8 +91,17 @@
                             <div class="coupon-info">
                                 <form action="${pageContext.request.contextPath }/KhuyenMaiController">
                                     <p class="checkout-coupon">
-                                        <input placeholder="Coupon code" type="text" name="maKhuyenMai">
+                                        <input placeholder="Coupon code" type="text" name="maKhuyenMai" value="${maKhuyenMai}">
                                         <input value="Apply Coupon" type="submit">
+
+                                        <c:if test="${not empty done}">
+                                            <script>
+                                                window.addEventListener("load",function(){
+                                                    alert("${done}");
+                                                })
+                                            </script>
+                                        </c:if>
+
                                     </p>
                                 </form>
                             </div>
@@ -99,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <form action="${pageContext.request.contextPath }/ThanhToanController">
+            <form action="${pageContext.request.contextPath }/ThanhToanController" method="post">
             <div class="row">
                 <div class="col-lg-6 col-12">
 
@@ -110,7 +122,23 @@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>Address <span class="required">*</span></label>
-                                        <input placeholder="Street address" type="text" name="diaChi">
+
+                                        <c:choose>
+                                            <c:when test="${empty diaChi}">
+                                                <input placeholder="Street address" type="text" name="diaChi" value="${sessionScope.taiKhoan.diaChi}" required>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <input placeholder="Street address" type="text" name="diaChi" value="${diaChi}" required>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <c:if test="${not empty thanhToan}">
+                                            <script>
+                                                window.addEventListener("load",function(){
+                                                    alert("${thanhToan}");
+                                                })
+                                            </script>
+                                        </c:if>
                                     </div>
                                 </div>
                             </div>
@@ -133,27 +161,39 @@
                                 <c:set var="total" value="${0}"/>
 
                                 <tbody>
+                                <c:if test="${not empty sessionScope.gioHangInfoSet}">
                                 <c:forEach items="${sessionScope.gioHangInfoSet}" var="gioHangInfo">
                                 <tr class="cart_item">
                                     <td class="cart-product-name">
                                         <c:out value="${gioHangInfo.hangHoa.tenSP}"/>
                                         <strong class="product-quantity"><c:out value="${gioHangInfo.soLuong}"></c:out> </strong>
                                     </td>
-                                    <td class="cart-product-total"><span class="amount"> <c:out value="${gioHangInfo.hangHoa.giaBan * gioHangInfo.soLuong}"/></span></td>
+                                    <td class="cart-product-total">
+                                        <span class="amount">
+                                             <fmt:setLocale value="vi_VN"/>
+                                            <fmt:formatNumber value="${gioHangInfo.hangHoa.giaBan* gioHangInfo.soLuong}" type="currency"/>
+                                        </span></td>
                                     <c:set var="total" value="${total + gioHangInfo.hangHoa.giaBan* gioHangInfo.soLuong}" />
                                 </tr>
 
                                 </c:forEach>
+                                </c:if>
                                 </tbody>
 
                                 <tfoot>
                                 <tr class="cart-subtotal">
                                     <th>Cart Subtotal</th>
-                                    <td><span class="amount"><c:out value="${total}"/> </span></td>
+                                    <td><span class="amount">
+                                         <fmt:setLocale value="vi_VN"/>
+                                        <fmt:formatNumber value="${total}" type="currency"/>
+                                    </span></td>
                                 </tr>
                                 <tr class="order-total">
                                     <th>Order Total</th>
-                                    <td><strong><span class="amount"><c:out value="${sessionScope.gioHang.tongTien}"/></span></strong></td>
+                                    <td><strong><span class="amount">
+                                           <fmt:setLocale value="vi_VN"/>
+                                        <fmt:formatNumber value="${sessionScope.gioHang.tongTien}" type="currency"/>
+                                    </span></strong></td>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -161,45 +201,19 @@
                         <div class="payment-method">
                             <div class="payment-accordion">
                                 <div id="accordion">
+
+
                                     <div class="card">
-                                        <div class="card-header" id="#payment-1">
-                                            <h5 class="panel-title">
-                                                <a class="" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                                    Direct Bank Transfer.
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="#payment-2">
-                                            <h5 class="panel-title">
-                                                <a class="collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                    Cheque Payment
-                                                </a>
-                                            </h5>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                            <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header" id="#payment-3">
+                                        <div class="card-header">
                                             <h5 class="panel-title">
                                                 <a class="collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                                    PayPal
+                                                    Payment on delivery
                                                 </a>
                                             </h5>
                                         </div>
                                         <div id="collapseThree" class="collapse" data-parent="#accordion">
                                             <div class="card-body">
-                                                <p>Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
+                                                <p>Prepare money for payment</p>
                                             </div>
                                         </div>
                                     </div>

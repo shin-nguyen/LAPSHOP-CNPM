@@ -11,8 +11,9 @@ public interface HangHoaImageDao {
     void edit(HangHoaImage hangHoaImage);
 
     void delete(HangHoaImage hangHoaImage);
-
+void deleteAll(int maSP);
     List<HangHoaImage> getAll();
 
     List<HangHoaImage> getByMaSP(int MaSP);
+
 }

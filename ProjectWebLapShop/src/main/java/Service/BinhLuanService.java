@@ -11,5 +11,7 @@ public interface BinhLuanService {
     List<BinhLuan> getByMaTK(int maTK);
     List<BinhLuan> getByMaSP(int maSP);
     List<BinhLuan> getAll();
-    BinhLuan getByMaSPVSMaTK(int maSP,int maTK);
+    Boolean checkTonTai(BinhLuan  binhLuan);
+    public Integer getCountBLByMaSP(int MaSP) ;
+        BinhLuan getByMaSPVSMaTK(int maSP,int maTK);
 }

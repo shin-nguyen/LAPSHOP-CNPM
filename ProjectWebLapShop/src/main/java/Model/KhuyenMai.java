@@ -2,6 +2,7 @@ package Model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 
 /*
@@ -61,6 +62,17 @@ public class KhuyenMai {
 
     public void setNgayKetThuc(Date ngayKetThuc) {
         NgayKetThuc = ngayKetThuc;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMaKhuyenMai());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof KhuyenMai)) return false;
+        KhuyenMai that = (KhuyenMai) o;
+        return Objects.equals(getMaKhuyenMai(), that.getMaKhuyenMai());
     }
 
 }

@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
+    <c:url value="/Admin" var="url"></c:url>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,8 +15,7 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>OderList</title>
-
+    <title>Order List</title>
 
     <!-- Fontfaces CSS-->
     <link href="${url}/css/font-face.css" rel="stylesheet" media="all">
@@ -36,11 +38,13 @@
     <!-- Main CSS-->
     <link href="${url}/css/theme.css" rel="stylesheet" media="all">
 
+
 </head>
 <body class="animsition">
-<jsp:include page="/Admin/HeaderAdmin.jsp" />
-<jsp:include page="/Admin/NavigationAdmin.jsp" />
 <div class="page-wrapper">
+    <jsp:include page="/Admin/HeaderAdmin.jsp" />
+    <jsp:include page="/Admin/NavigationAdmin.jsp" />
+
     <!-- PAGE CONTAINER-->
     <div class="page-container">
         <div class="main-content">
@@ -50,78 +54,107 @@
                         <div class="col-md-12">
                             <!-- DATA TABLE -->
                             <h3 class="title-5 m-b-35">Orders</h3>
+                            <form method="get" action="${pageContext.request.contextPath}/GioHangController">
                             <div class="table-data__tool">
                                 <div class="table-data__tool-left">
                                     <div class="rs-select2--light rs-select2--md">
-                                        <select class="js-select2 select2-hidden-accessible" name="property" tabindex="-1" aria-hidden="true">
-                                            <option selected="selected">All Properties</option>
-                                            <option value="">Option 1</option>
-                                            <option value="">Option 2</option>
+                                        <select class="js-select2 select2-hidden-accessible" name="trangThai"  tabindex="-1" aria-hidden="true">
+                                            <option value="All"   <c:if test= "${tinhTrang =='All' }" >
+                                                    selected
+                                            </c:if>>
+                                                All Properties
+                                            </option>
+
+                                            <option value="1"<c:if test= "${tinhTrang =='1' }" >
+                                                selected
+                                            </c:if>>Unconfirmed</option>
+                                            <option value="2"<c:if test= "${tinhTrang =='2' }" >
+                                                selected
+                                            </c:if>>Being transported </option>
+                                            <option value="3"<c:if test= "${tinhTrang =='3' }" >
+                                                selected
+                                            </c:if>>Successful receipt </option>
+                                            <option value="4"<c:if test= "${tinhTrang =='4' }" >
+                                                selected
+                                            </c:if>>No receipt/option>
+
                                         </select>
+
                                         <div class="dropDownSelect2"></div>
                                     </div>
-                                    <div class="rs-select2--light rs-select2--sm">
-                                        <select class="js-select2 select2-hidden-accessible" name="time" tabindex="-1" aria-hidden="true">
-                                            <option selected="selected">Today</option>
-                                            <option value="">3 Days</option>
-                                            <option value="">1 Week</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
-                                    <button class="au-btn-filter">
-                                        <i class="zmdi zmdi-filter-list"></i>filters</button>
-                                </div>
-                                <div class="table-data__tool-right">
-                                    <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                        <select class="js-select2 select2-hidden-accessible" name="type" tabindex="-1" aria-hidden="true">
-                                            <option selected="selected">Export</option>
-                                            <option value="">Option 1</option>
-                                            <option value="">Option 2</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
+
+                                    <button class="au-btn-filter" type="submit">
+                                        <i class="zmdi zmdi-filter-list"></i>filters
+                                    </button>
                                 </div>
                             </div>
+                            </form>
                             <div class="table-responsive table-responsive-data2">
                                 <table class="table table-data2">
                                     <thead>
                                     <tr>
-
-                                        <th>Khách hàng</th>
-                                        <th>Mã giỏ</th>
-                                        <th>Địa chỉ giao hàng</th>
-                                        <th>Ngày đặt hàng</th>
-                                        <th>Trạng thái</th>
-                                        <th>Tổng tiền</th>
-                                        <th></th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Address</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total money</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+<%--                                    --%>
+<c:if test="${not empty gioHangList}">
+                                <c:forEach items = "${gioHangList}" var = "gioHang">
+
                                     <tr class="tr-shadow">
 
-                                        <td>Lori Lynch</td>
+                                        <td><c:out value="${gioHang.taiKhoan.hoTen}"></c:out></td>
                                         <td>
-                                            <span class="block-email">john@example.com</span>
+                                            <span class="block-email"><c:out value="${gioHang.taiKhoan.email}"></c:out></span>
                                         </td>
-                                        <td class="desc">iPhone X 64Gb Grey</td>
-                                        <td>2018-09-29 05:57</td>
+                                        <td class="desc"><c:out value="${gioHang.diaChi}"></c:out></td>
+                                        <td><fmt:formatDate pattern="yyyy-MM-dd" value="${gioHang.thoiGian}" /></td>
                                         <td>
-                                            <span class="status--process">Chưa xử lí</span>
+                                            <c:choose>
+                                                <c:when test="${gioHang.trangThai==1}">
+                                                    <span class="status--process">Unconfirmed</span>
+                                                </c:when>
+                                                <c:when test="${gioHang.trangThai==2}">
+                                                    <span class="status--process"> Being transported </span>
+                                                </c:when>
+                                                <c:when test="${gioHang.trangThai==3}">
+                                                    <span class="status--process">Successful receipt</span>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <span class="status--process">No receipt</span>
+                                                </c:otherwise>
+                                            </c:choose>
+
+
                                         </td>
-                                        <td>$999.00</td>
+                                        <td>
+                                            <fmt:setLocale value="vi_VN"/>
+                                            <fmt:formatNumber value="${gioHang.tongTien}" type="currency"/>
+                                        </td>
                                         <td>
                                             <div class="table-data-feature">
-                                                <a href="ProcessOrder.html"class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Send">
-                                                    <i class="zmdi zmdi-mail-send"></i>
-                                                </a>
+                                                <form method="post" action="${pageContext.request.contextPath}/GioHangController">
+                                                    <input name="maGioHang" value="${gioHang.maGioHang}" hidden readonly required>
+                                                    <input name="trangThai" value="${gioHang.trangThai}" hidden readonly required>
 
-                                                <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
+                                                    <button class="item" data-toggle="tooltip" type="submit" data-placement="top"  title="" data-original-title="Send">
+                                                    <i class="zmdi zmdi-mail-send"></i>
+                                                    </button>
+                                                </form>
+                                                <a class="item" href="${pageContext.request.contextPath}/GioHangDeleteController?maGioHang=${gioHang.maGioHang}" data-toggle="tooltip" data-placement="top" title="Tu Choi" data-original-title="Delete">
                                                     <i class="zmdi zmdi-delete"></i>
-                                                </button>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr class="spacer"></tr>
+                                </c:forEach>
+</c:if>
                                     </tbody>
                                 </table>
                             </div>

@@ -10,6 +10,9 @@ public interface HopThuDao {
     void delete(HopThu hopThu);
 
     HopThu get(int maHopThu);
+    HopThu getByTraLoi(int maHopThu);
+    List<HopThu> getTrangThai(String trangThai);
 
     List<HopThu> getAll();
+
 }

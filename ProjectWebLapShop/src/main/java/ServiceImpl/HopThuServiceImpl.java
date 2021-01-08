@@ -33,6 +33,16 @@ public class HopThuServiceImpl implements HopThuService {
     }
 
     @Override
+    public List<HopThu> getTrangThai(String trangThai) {
+        return  hopThuDao.getTrangThai(trangThai);
+    }
+
+    @Override
+    public HopThu getByTraLoi(int maHopThu) {
+        return hopThuDao.getByTraLoi(maHopThu);
+    }
+
+    @Override
     public List<HopThu> getAll() {
         return hopThuDao.getAll();
     }

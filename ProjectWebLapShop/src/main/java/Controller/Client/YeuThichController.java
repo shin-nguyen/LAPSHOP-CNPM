@@ -26,23 +26,15 @@ public class YeuThichController extends HttpServlet {
     HangHoaService hangHoaService = new HangHoaServiceImpl();
     YeuThichService yeuThichService = new YeuThichServiceImpl();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
-
-    }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request,response);
 
-    }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+        String duongDan = request.getParameter("duongDan");
+        String maSP = request.getParameter("maSP");
 
         HttpSession session = request.getSession();
         TaiKhoan taiKhoan= (TaiKhoan) session.getAttribute("taiKhoan");
-        String MaSP = request.getParameter("MaSP");
-        HangHoa hangHoa = hangHoaService.get(Integer.parseInt(MaSP));
+
+        HangHoa hangHoa = hangHoaService.get(Integer.parseInt(maSP));
 
         YeuThich yeuThich = new YeuThich();
         yeuThich.setTaiKhoan(taiKhoan);
@@ -52,16 +44,37 @@ public class YeuThichController extends HttpServlet {
         Set<YeuThich> yeuThichSet = (Set<YeuThich>) session.getAttribute("yeuThichSet");
 
         boolean existedYeuThich = yeuThichSet.contains(yeuThich);
-            if (existedYeuThich == false) {
-                yeuThichSet.add(yeuThich);
-                yeuThichService.insert(yeuThich);
-            } else {
-                yeuThichSet.remove( yeuThich);
-                yeuThichService.delete(yeuThich);
-            }
-            session.setAttribute("yeuThichSet", yeuThichSet);
+        if (existedYeuThich == false) {
+            yeuThichSet.add(yeuThich);
+            yeuThichService.insert(yeuThich);
+        } else {
+            yeuThichSet.remove( yeuThich);
+            yeuThichService.delete(yeuThich);
+        }
+        session.setAttribute("yeuThichSet", yeuThichSet);
+        String url="";
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Client/wishlist.jsp");
+        if (duongDan.equalsIgnoreCase("single-product")){
+            url = "/HangHoaChiTietController";
+        }
+
+        if (duongDan.equalsIgnoreCase("wishlist")){
+            url = "/Client/wishlist.jsp";
+        }
+        if (duongDan.equalsIgnoreCase("home")){
+            url = "/Client/home.jsp";
+
+        }
+        if (duongDan.equalsIgnoreCase("SearchProduct")){
+            String tenSP = request.getParameter("tenSP");
+            request.setAttribute("tenSP",tenSP);
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/HangHoaTimKiemBangTen");
+            dispatcher.forward(request, response);
+            return;
+        }
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher(url);
         dispatcher.forward(request, response);
     }
 }

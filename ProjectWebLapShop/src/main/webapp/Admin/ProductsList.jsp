@@ -1,19 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
+    <c:url value="/Admin" var="url"></c:url>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
+    <meta name="author" content="">
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Dashboard</title>
-
+    <title>ProductsList</title>
 
     <!-- Fontfaces CSS-->
     <link href="${url}/css/font-face.css" rel="stylesheet" media="all">
@@ -36,10 +37,12 @@
     <!-- Main CSS-->
     <link href="${url}/css/theme.css" rel="stylesheet" media="all">
 
+
 </head>
-<body class="animsition"><jsp:include page="/Admin/HeaderAdmin.jsp" />
-<jsp:include page="/Admin/NavigationAdmin.jsp" />
+<body class="animsition">
 <div class="page-wrapper">
+    <jsp:include page="/Admin/HeaderAdmin.jsp" />
+    <jsp:include page="/Admin/NavigationAdmin.jsp" />
     <!-- PAGE CONTAINER-->
     <div class="page-container">
         <div class="main-content">
@@ -49,80 +52,69 @@
                         <div class="col-md-12">
                             <!-- DATA TABLE -->
                             <h3 class="title-5 m-b-35">Products</h3>
-                            <div class="table-data__tool">
-                                <div class="table-data__tool-left">
-                                    <div class="rs-select2--light rs-select2--md">
-                                        <select class="js-select2 select2-hidden-accessible" name="property" tabindex="-1" aria-hidden="true">
-                                            <option selected="selected">All Properties</option>
-                                            <option value="">Option 1</option>
-                                            <option value="">Option 2</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
-                                    <div class="rs-select2--light rs-select2--sm">
-                                        <select class="js-select2 select2-hidden-accessible" name="time" tabindex="-1" aria-hidden="true">
-                                            <option selected="selected">Today</option>
-                                            <option value="">3 Days</option>
-                                            <option value="">1 Week</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
-                                    <button class="au-btn-filter">
-                                        <i class="zmdi zmdi-filter-list"></i>filters</button>
-                                </div>
-                                <div class="table-data__tool-right">
-                                    <a href="AddProduct.html" class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                        <i class="zmdi zmdi-plus"></i>Thêm</a>
-                                    <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                        <select class="js-select2 select2-hidden-accessible" name="type" tabindex="-1" aria-hidden="true">
-                                            <option selected="selected">Export</option>
-                                            <option value="">Option 1</option>
-                                            <option value="">Option 2</option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
-                                </div>
+                            <div class="table-data__tool-right">
+                                <a href="${url}/AddProduct.jsp" class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                    <i class="zmdi zmdi-plus"></i>Add</a>
                             </div>
+
                             <div class="table-responsive table-responsive-data2">
                                 <table class="table table-data2">
                                     <thead>
                                     <tr>
-
-                                        <th>Tên</th>
                                         <th>ID</th>
-                                        <th>Nhà sản xuất</th>
-                                        <th>Đơn giá</th>
-                                        <th>Số lượng</th>
-                                        <th>Giá gốc</th>
+                                        <th>Product's name</th>
+                                        <th>Manufacturer</th>
+                                        <th>Product selling price</th>
+                                        <th>Original price of the product</th>
+                                        <th>Quantities</th>
                                         <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <c:if test="${not empty sessionScope.hangHoaSet}">
+                                    <c:forEach items = "${sessionScope.hangHoaSet}" var = "hangHoa">
+
                                     <tr class="tr-shadow">
 
-                                        <td>NameSP</td>
+                                        <td> <c:out value="${hangHoa.maSP}"></c:out></td>
                                         <td>
-                                            <span class="block-email">lori@example.com</span>
+                                            <span class="block-email"><c:out value="${hangHoa.tenSP}"></c:out></span>
                                         </td>
-                                        <td class="desc">Samsung S8 Black</td>
-                                        <td>2018-09-27 02:12</td>
+                                        <td class="desc"><c:out value="${hangHoa.NSX.tenNSX}"></c:out></td>
+                                        <td><c:out value="${hangHoa.giaBan}"></c:out></td>
+                                        <td><c:out value="${hangHoa.giaGoc}"></c:out></td>
                                         <td>
-                                            <span class="status--process">Processed</span>
+                                            <span class="status--process"><c:out value="${hangHoa.soLuong}"></c:out></span>
                                         </td>
-                                        <td>$679.00</td>
+
                                         <td>
                                             <div class="table-data-feature">
 
-                                                <a href="ProductInformation.html" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit">
+                                                <a href="${pageContext.request.contextPath}/NhapHangController?maSP=${hangHoa.maSP}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Add Quantity">
+                                                    <i class="zmdi zmdi-plus"></i>
+                                                </a>
+
+                                                <a href="${pageContext.request.contextPath}/HangHoaImageAdd?maSP=${hangHoa.maSP}" class="item" data-toggle="tooltip" data-placement="top" title="AddImage" data-original-title="AddImage">
+                                                    <i class="zmdi zmdi-image"></i>
+                                                </a>
+
+                                                <a href="${pageContext.request.contextPath}/HangHoaAddController?maSP=${hangHoa.maSP}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Edit">
                                                     <i class="zmdi zmdi-edit"></i>
                                                 </a>
-                                                <button class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
+
+                                                <a href="${pageContext.request.contextPath}/HangHoaDeleteController?maSP=${hangHoa.maSP}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete">
                                                     <i class="zmdi zmdi-delete"></i>
-                                                </button>
+                                                </a>
+
+                                                <a href="${pageContext.request.contextPath}/HangHoaImageDeleteController?maSP=${hangHoa.maSP}" class="item" data-toggle="tooltip" data-placement="top" title="" data-original-title="DeleteAllImage">
+                                                    <i class="zmdi zmdi-image-alt"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr class="spacer"></tr>
+                                    </c:forEach>
+                                    </c:if>
                                     </tbody>
                                 </table>
                             </div>
@@ -158,6 +150,6 @@
 </script>
 
 <!-- Main JS-->
-<script src="${url}/js/main.js"></script>s
+<script src="${url}/js/main.js"></script>
 </body>
 </html>

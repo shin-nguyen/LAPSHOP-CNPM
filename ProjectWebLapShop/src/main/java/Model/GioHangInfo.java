@@ -7,9 +7,9 @@ import java.util.Objects;
 @Table (name = "GioHangInfo")
 @AssociationOverrides({
         @AssociationOverride(name = "primaryKey.gioHang",
-                joinColumns = @JoinColumn(name = "MaGiohang")),
+                joinColumns = @JoinColumn(name = "maGiohang")),
         @AssociationOverride(name = "primaryKey.hangHoa",
-                joinColumns = @JoinColumn(name = "MaSP")) })
+                joinColumns = @JoinColumn(name = "maSP")) })
 public  class  GioHangInfo{
 
 
@@ -64,14 +64,14 @@ public  class  GioHangInfo{
 
     @Override
     public int hashCode() {
-        return Objects.hash(getGioHang().getMaGioHang(), getHangHoa().getMaSP());
+        return Objects.hash(getPrimaryKey().getGioHang().getMaGioHang(), getPrimaryKey().getHangHoa().getMaSP());
     }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof GioHangInfo)) return false;
         GioHangInfo that = (GioHangInfo) o;
-        return Objects.equals(getGioHang().getMaGioHang(), that.getGioHang().getMaGioHang())&&
-                Objects.equals(getHangHoa().getMaSP(), that.getHangHoa().getMaSP());
+        return Objects.equals(getPrimaryKey().getGioHang().getMaGioHang(), that.getPrimaryKey().getGioHang().getMaGioHang())&&
+                Objects.equals(getPrimaryKey().getHangHoa().getMaSP(), that.getPrimaryKey().getHangHoa().getMaSP());
     }
 }

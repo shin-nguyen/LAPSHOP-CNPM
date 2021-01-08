@@ -2,10 +2,12 @@ package DaoImpl;
 
 import Dao.TaiKhoanDao;
 import Model.TaiKhoan;
+import Model.YeuThich;
 import Util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -73,7 +75,7 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-        TaiKhoan taiKhoan;
+        TaiKhoan taiKhoan = new TaiKhoan();
         try{
             tx = session.beginTransaction();
             Criteria crit = session.createCriteria(TaiKhoan.class);
@@ -92,7 +94,7 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
             session.close();
 
         }
-        return  null;
+        return  taiKhoan;
     }
 
     @Override
@@ -100,7 +102,7 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-        TaiKhoan taiKhoan;
+        TaiKhoan taiKhoan = new TaiKhoan();
         try{
             tx = session.beginTransaction();
             Criteria crit = session.createCriteria(TaiKhoan.class);
@@ -119,22 +121,25 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
             session.close();
 
         }
-        return  null;
+        return  taiKhoan;
     }
 
     @Override
-    public List<TaiKhoan> getAll() {
+    public TaiKhoan getTKByEmail(String email) {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        TaiKhoan taiKhoan = new TaiKhoan();
         try{
             tx = session.beginTransaction();
             Criteria crit = session.createCriteria(TaiKhoan.class);
 
-            List taiKhoan = crit.list();
+            // Add restriction.
+            crit.add(Restrictions.eq("email",email ));
+
+            taiKhoan = (TaiKhoan) crit.uniqueResult();
             tx.commit();
-            return  taiKhoan;
+            return taiKhoan;
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -143,7 +148,58 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
             session.close();
 
         }
-        return  null;
+        return  taiKhoan;
+    }
+
+    @Override
+    public List<TaiKhoan> getAll() {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<TaiKhoan> taiKhoanList = new ArrayList<>();
+        try{
+            tx = session.beginTransaction();
+            Criteria crit = session.createCriteria(TaiKhoan.class);
+
+            taiKhoanList = crit.list();
+            tx.commit();
+            return  taiKhoanList;
+
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+
+        }
+        return  taiKhoanList;
+    }
+
+    @Override
+    public List<TaiKhoan> getTKByPQ(int tenPQ) {
+        factory = HibernateUtil.getSessionFactory();
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<TaiKhoan> taiKhoanList = new ArrayList<>();
+        try{
+            tx = session.beginTransaction();
+            Criteria crit = session.createCriteria(TaiKhoan.class);
+
+            // Add restriction.
+            crit.add(Restrictions.eq("phanQuyen",tenPQ ));
+
+            taiKhoanList = crit.list();
+            tx.commit();
+            return taiKhoanList;
+
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+
+        }
+        return  taiKhoanList;
     }
 
     @Override
@@ -158,22 +214,21 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
             // Add restriction.
             crit.add(Restrictions.eq("email",email ));
 
-            List taiKhoan =  crit.list();
+            TaiKhoan taiKhoan = (TaiKhoan) crit.uniqueResult();
 
             tx.commit();
 
-            if (taiKhoan.iterator().next()!=null){
+            if (taiKhoan!=null){
                 return  true;
+            }
+            else{
+                return  false;
             }
 
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         }
-        catch (NoSuchElementException ex){
-            return  false;
-        }
-
         finally {
             session.close();
 
@@ -193,21 +248,21 @@ public class TaiKhoanDaoImpl implements TaiKhoanDao {
             // Add restriction.
             crit.add(Restrictions.eq("tenTK",tenTK ));
 
-            List taiKhoan =  crit.list();
+            TaiKhoan taiKhoan = (TaiKhoan) crit.uniqueResult();
 
             tx.commit();
 
-            if (taiKhoan.iterator().next()!=null){
+            if (taiKhoan!=null){
                 return  true;
+            }
+            else {
+                return false;
             }
 
         }catch (HibernateException e ) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
 
-        }
-        catch (NoSuchElementException ex){
-            return  false;
         }finally {
             session.close();
 

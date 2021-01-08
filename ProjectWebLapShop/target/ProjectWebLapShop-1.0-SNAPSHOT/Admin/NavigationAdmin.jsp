@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -42,100 +45,88 @@
 <body class="animsition">
 <div class="page-wrapper">
     <!-- HEADER MOBILE-->
-    <header class="header-mobile d-block d-lg-none">
-        <div class="header-mobile__bar">
-            <div class="container-fluid">
-                <div class="header-mobile-inner">
-                    <a class="logo" href="Dashboard.html">
-                        <img src="images/icon/logo.png" alt="CoolAdmin" />
-                    </a>
-                    <button class="hamburger hamburger--slider" type="button">
-                            <span class="hamburger-box">
-                                <span class="hamburger-inner"></span>
-                            </span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <nav class="navbar-mobile">
-            <div class="container-fluid">
-                <ul class="navbar-mobile__list list-unstyled">
-                    <li class="has-sub">
-                        <a class="js-arrow" href="Dashboard.html">
-                            <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                    </li>
+<%--    <header class="header-mobile d-block d-lg-none">--%>
+<%--        <div class="header-mobile__bar">--%>
+<%--            <div class="container-fluid">--%>
+<%--                <div class="header-mobile-inner">--%>
+<%--                    <a class="logo" href="${url}/Dashboard.html">--%>
+<%--                        <img src="images/icon/logo.png" alt="CoolAdmin" />--%>
+<%--                    </a>--%>
+<%--                    <button class="hamburger hamburger--slider" type="button">--%>
+<%--                            <span class="hamburger-box">--%>
+<%--                                <span class="hamburger-inner"></span>--%>
+<%--                            </span>--%>
+<%--                    </button>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <nav class="navbar-mobile">--%>
+<%--            <div class="container-fluid">--%>
+<%--                <ul class="navbar-mobile__list list-unstyled">--%>
+<%--                    <li class="has-sub">--%>
+<%--                        <a class="js-arrow" href="${url}/Dashboard.html">--%>
+<%--                            <i class="fas fa-tachometer-alt"></i>Dashboard</a>--%>
+<%--                    </li>--%>
 
-                    <li>
-                        <a href="ProductsList.html">
-                            <i class="fas fa-table"></i>Products</a>
-                    </li>
-                    <li>
-                        <a href="OrdersList.html">
-                            <i class="far fa-check-square"></i>Order</a>
-                    </li>
-                    <li class="has-sub">
-                        <a class="js-arrow" href="#">
-                            <i class="fas fa-copy"></i>Pages</a>
-                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                            <li>
-                                <a href="login.html">Login</a>
-                            </li>
-                            <li>
-                                <a href="register.html">Register</a>
-                            </li>
-                            <li>
-                                <a href="forget-pass.html">Forget Password</a>
-                            </li>
-                        </ul>
-                    </li>
+<%--                    <li>--%>
+<%--                        <a href="ProductsList.html">--%>
+<%--                            <i class="fas fa-table"></i>Products</a>--%>
+<%--                    </li>--%>
+<%--                    <li>--%>
+<%--                        <a href="OrdersList.html">--%>
+<%--                            <i class="far fa-check-square"></i>Order</a>--%>
+<%--                    </li>--%>
+<%--                    <li class="has-sub">--%>
+<%--                        <a class="js-arrow" href="#">--%>
+<%--                            <i class="fas fa-copy"></i>Pages</a>--%>
+<%--                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">--%>
+<%--                            <li>--%>
+<%--                                <a href="login.html">Login</a>--%>
+<%--                            </li>--%>
+<%--                            <li>--%>
+<%--                                <a href="register.html">Register</a>--%>
+<%--                            </li>--%>
+<%--                            <li>--%>
+<%--                                <a href="forget-pass.html">Forget Password</a>--%>
+<%--                            </li>--%>
+<%--                        </ul>--%>
+<%--                    </li>--%>
 
-                </ul>
-            </div>
-        </nav>
-    </header>
+<%--                </ul>--%>
+<%--            </div>--%>
+<%--        </nav>--%>
+<%--    </header>--%>
     <!-- END HEADER MOBILE-->
     <!-- MENU SIDE-BAR-->
     <aside class="menu-sidebar d-none d-lg-block">
         <div class="logo">
-            <a href="#">
-                <img src="images/icon/logo.png" alt="Cool Admin" />
+            <a class="logo" href="${url}/ProductsList.jsp">
+                <img src="${pageContext.request.contextPath}/Admin/images/icon/logo.png" alt="CoolAdmin" />
             </a>
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
             <nav class="navbar-sidebar">
                 <ul class="list-unstyled navbar__list">
                     <li class="active has-sub">
-                        <a class="js-arrow" href="#">
-                            <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                            <li>
-                                <a href="Dashboard.html">Dashboard 1</a>
-                            </li>
-                        </ul>
+                        <a class="js-arrow" href="${pageContext.request.contextPath}/Admin/ProducersList.jsp">
+                            <i class="fas fa-tachometer-alt"></i>Manufacturer</a>
                     </li>
                     <li>
-                    <li>
-                        <a href="ProductsList.html">
+                        <a href="${pageContext.request.contextPath}/Admin/ProductsList.jsp">
                             <i class="fas fa-table"></i>Products</a>
                     </li>
                     <li>
-                        <a href="OrdersList.html">
+                        <a href="${pageContext.request.contextPath}/GioHangController?trangThai=All">
                             <i class="far fa-check-square"></i>Orders</a>
                     </li>
                     <li class="has-sub">
-                        <a class="js-arrow" href="#">
-                            <i class="fas fa-copy"></i>Pages</a>
-                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                            <li>
-                                <a href="login.html">Login</a>
-                            </li>
-                            <li>
-                                <a href="register.html">Register</a>
-                            </li>
-                            <li>
-                                <a href="forget-pass.html">Forget Password</a>
-                            </li>
-                        </ul>
+                        <a class="js-arrow" href="${pageContext.request.contextPath}/Admin/AccountsList.jsp">
+                            <i class="fas fa-copy"></i>Account</a>
+                    </li>
+
+                    <li>
+                        <a href="${pageContext.request.contextPath}/Admin/KhuyenMaiList.jsp">
+                            <i class="far fa-calendar-check-o"></i>Promotional</a>
                     </li>
                 </ul>
             </nav>

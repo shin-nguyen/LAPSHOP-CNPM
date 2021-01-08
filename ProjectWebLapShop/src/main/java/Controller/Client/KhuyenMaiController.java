@@ -4,7 +4,7 @@ import Model.GioHang;
 import Model.KhuyenMai;
 import Model.TaiKhoan;
 import Service.GioHangService;
-import ServiceImpl.GioHangServiceServiceImpl;
+import ServiceImpl.GioHangServiceImpl;
 import ServiceImpl.KhuyenMaiServiceImpl;
 
 import javax.servlet.RequestDispatcher;
@@ -19,7 +19,7 @@ import java.io.IOException;
 @WebServlet("/KhuyenMaiController")
 public class KhuyenMaiController extends HttpServlet {
     KhuyenMaiServiceImpl khuyenMaiService = new KhuyenMaiServiceImpl();
-    GioHangService gioHangService = new GioHangServiceServiceImpl();
+    GioHangService gioHangService = new GioHangServiceImpl();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         processRequest(request,response);
 
@@ -36,14 +36,16 @@ public class KhuyenMaiController extends HttpServlet {
         GioHang gioHang = (GioHang) session.getAttribute("gioHang");
 
         String maKhuyenMai = request.getParameter("maKhuyenMai");
-        KhuyenMai khuyenMai = khuyenMaiService.get(Integer.parseInt(maKhuyenMai));
+        KhuyenMai khuyenMai = khuyenMaiService.getByMaKMVaDay(Integer.parseInt(maKhuyenMai));
 
-        gioHang.setTongTien(Math.max(gioHang.getTongTien()-khuyenMai.getGiaTriKhuyenMai(),0));
-        gioHang.setKhuyenMai(khuyenMai);
+        if (khuyenMai!=null) {
+            gioHang.setTongTien(Math.max(gioHang.getTongTien() - khuyenMai.getGiaTriKhuyenMai(), 0));
+            gioHang.setKhuyenMai(khuyenMai);
 
-        gioHangService.edit(gioHang);
-        session.setAttribute("gioHang",gioHang);
-
+            request.setAttribute("done","Add promotion successfully");
+            gioHangService.edit(gioHang);
+            session.setAttribute("gioHang", gioHang);
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/Client/checkout.jsp");
         dispatcher.forward(request, response);
     }

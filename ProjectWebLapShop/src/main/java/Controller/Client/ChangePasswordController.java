@@ -22,43 +22,30 @@ import java.util.regex.Pattern;
 @WebServlet("/ChangePasswordController")
 public class ChangePasswordController extends HttpServlet {
     TaiKhoanService taiKhoanService = new TaiKhoanServiceImpl();
-    private int MaTK;
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         boolean thanhCong = true;
         String matKhau = request.getParameter("matKhau");
         String matKhauXacNhan = request.getParameter("matKhauXacNhan");
 
-        if (matKhau.trim().isEmpty()|| matKhauXacNhan.trim().isEmpty()|| !matKhau.equals(matKhauXacNhan)){
-            request.setAttribute("matKhauError", "Is null");
+        if (!matKhau.equals(matKhauXacNhan)){
+            request.setAttribute("matKhauError", "That password doesn't match. Try again.");
             thanhCong = false;
         }
 
-
+        HttpSession session= request.getSession();
+        TaiKhoan taiKhoan= (TaiKhoan) session.getAttribute("taiKhoan");
 
         if (thanhCong){
-
-            HttpSession session= request.getSession();
-            TaiKhoan taiKhoanCu= (TaiKhoan) session.getAttribute("taiKhoan");
-            MaTK = taiKhoanCu.getMaTK();
-
-            TaiKhoan taiKhoan =  new TaiKhoan();
             taiKhoan.setMatKhau(matKhau);
-
             taiKhoanService.edit(taiKhoan);
         }
 
         if (thanhCong) {
-            TaiKhoan taiKhoan =taiKhoanService.get(MaTK);
             SendMail sm= new SendMail();
-            sm.sendMail(taiKhoan.getEmail(), "DangKiWebCuaTangYuChengVaNhungNguoiBan", "Change success. Thanks !");
+            sm.sendMail(taiKhoan.getEmail(), "Change Pass Web LapShop", "Change success. Thanks !");
 
-
-            HttpSession session = request.getSession(true);
-            session.setAttribute("taiKhoan", taiKhoan);
-
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Client/index.jsp");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Client/home.jsp");
             dispatcher.forward(request, response);
         } else {
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Client/my-account.jsp");
@@ -68,28 +55,30 @@ public class ChangePasswordController extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
-//        HttpSession session = request.getSession(false);
-//        if (session != null && session.getAttribute("tenTK") != null) {
-//            response.sendRedirect(request.getContextPath() + "/WelcomeAdminController");
-//            return;
-//        }
-//        // Check cookie
-//        Cookie[] cookies = request.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if (cookie.getName().equals("tenTK")) {
-//                    session = request.getSession(true);
-//                    session.setAttribute("tenTK", cookie.getValue());
-//                    response.sendRedirect(request.getContextPath() + "/admin");
-//                    return;
-//                }
-//            }
-//        }
-//
-//        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(LinkWeb.Path.REGISTER);
-//        dispatcher.forward(request, response);
-//        return;
-    }
+        String email = request.getParameter("email");
 
+        if (taiKhoanService.checkExistEmail(email)) {
+            TaiKhoan taiKhoan = taiKhoanService.getTKByEmail(email);
+            SendMail sm = new SendMail();
+            sm.sendMail(email, "Pass", taiKhoan.getMatKhau());
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/index.jsp");
+            dispatcher.forward(request, response);
+        }
+        else {
+            Pattern emailPattern = Pattern.compile("[a-zA-Z0-9_+&*-]+(?:\\."+
+                    "[a-zA-Z0-9_+&*-]+)*@" +
+                    "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                    "A-Z]{2,7}");
+            Matcher emailMatcher = emailPattern.matcher(email);
+            if (!emailMatcher.matches()){
+                request.setAttribute("emailError","Incorrect email syntax");
+            }
+            else {
+                request.setAttribute("emailError", "Email not available");
+            }
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Client/forget-pass.jsp");
+            dispatcher.forward(request, response);
+        }
+
+    }
 }

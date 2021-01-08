@@ -449,66 +449,7 @@ textarea:focus {
 /*----------------------------------------*/
 /*  1.8 Background Variation Set
 /*----------------------------------------*/
-/*Home One | Slider Background Image*/
-.bg-1, .bg-2, .bg-3 {
-	background-image: url(images/slider/1.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	min-height: 475px;
-	width: 100%;
-}
-.bg-2 {
-	background-image: url(images/slider/2.jpg);
-}
-.bg-3 {
-	background-image: url(images/slider/3.jpg);
-}
-/*Home Two | Slider Background Image*/
-.bg-4, .bg-5, .bg-6 {
-	background-image: url(images/slider/4.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	min-height: 475px;
-	width: 100%;
-}
-.bg-5 {
-	background-image: url(images/slider/5.jpg);
-}
-.bg-6 {
-	background-image: url(images/slider/6.jpg);
-}
-/*Home Three | Slider Background Image*/
-.bg-7, .bg-8, .bg-9 {
-	background-image: url(images/slider/7.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	min-height: 425px;
-	width: 100%;
-}
-.bg-8 {
-	background-image: url(images/slider/8.jpg);
-}
-.bg-9 {
-	background-image: url(images/slider/9.jpg);
-}
-/*Home Four | Slider Background Image*/
-.bg-10, .bg-11, .bg-12 {
-	background-image: url(images/slider/10.jpg);
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-size: cover;
-	min-height: 770px;
-	width: 100%;
-}
-.bg-11 {
-	background-image: url(images/slider/11.jpg);
-}
-.bg-12 {
-	background-image: url(images/slider/12.jpg);
-}
+
 /*----------------------------------------*/
 /*  li's Background Variation Set 
 /*----------------------------------------*/
@@ -2654,12 +2595,7 @@ textarea:focus {
 /*----------------------------------------*/
 /*  2.7 Li's Static Home Banner
 /*----------------------------------------*/
-.li-static-home-image {
-	background-image: url(images/bg-banner/1.jpg);
-	background-size: cover;
-	height: 400px;
-	background-repeat: no-repeat;
-}
+
 .li-static-home-content {
 	padding-left: 75px;
 	position: absolute;
@@ -3058,8 +2994,8 @@ text-align: center;
 	font-family: fontawesome;
 }
 .category-heading > h2 > i {
-	float: ;
-	text-align: ;
+	float:right ;
+	text-align: right;
 	float: right;
 	padding-right: 20px;
 	font-size: 12px;

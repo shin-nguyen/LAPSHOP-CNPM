@@ -16,16 +16,7 @@ public class HangHoaServiceImpl implements HangHoaService {
 
     @Override
     public void edit(HangHoa hangHoa) {
-        HangHoa hangHoaCu = hangHoaDao.get(hangHoa.getMaSP());
-        if (hangHoa.getRAM()!=null){
-            hangHoaCu.setRAM(hangHoa.getRAM());
-        }
-        if (hangHoa.getCPU()!=null){
-            hangHoaCu.setCPU(hangHoa.getCPU());
-        }
-        if (hangHoa.getGiaBan()!=0){
-            hangHoaCu.setGiaBan(hangHoa.getGiaBan());
-        }
+
         hangHoaDao.edit(hangHoa);
     }
 

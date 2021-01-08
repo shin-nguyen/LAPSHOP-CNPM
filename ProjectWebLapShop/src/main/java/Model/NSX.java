@@ -2,6 +2,7 @@ package Model;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /*
 MaNSX - DiaChi - TenNSX
@@ -45,5 +46,17 @@ public class NSX {
     }
     public void setTenNSX(String tenNSX) {
         TenNSX = tenNSX;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getMaNSX());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof NSX)) return false;
+        NSX that = (NSX) o;
+        return Objects.equals(getMaNSX(), that.getMaNSX());
     }
 }

@@ -6,6 +6,7 @@ import Util.HibernateUtil;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DonNhapDaoImpl implements DonNhapDao {
@@ -73,12 +74,12 @@ public class DonNhapDaoImpl implements DonNhapDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        DonNhap donNhap = new DonNhap();
         try {
             tx = session.beginTransaction();
             Criteria cr = session.createCriteria(DonNhap.class);
             cr.add(Restrictions.eq("MaDonNhap", MaDonNhap));
-            DonNhap donNhap = (DonNhap) cr.uniqueResult();
+             donNhap = (DonNhap) cr.uniqueResult();
             tx.commit();
 
             return donNhap;
@@ -89,7 +90,7 @@ public class DonNhapDaoImpl implements DonNhapDao {
         } finally {
             session.close();
         }
-        return  null;
+        return  donNhap;
     }
 
     @Override
@@ -97,13 +98,13 @@ public class DonNhapDaoImpl implements DonNhapDao {
         factory = HibernateUtil.getSessionFactory();
         Session session = factory.openSession();
         Transaction tx = null;
-
+        List<DonNhap> donNhapList=new ArrayList<>();
         try {
             tx = session.beginTransaction();
             Criteria cr = session.createCriteria(DonNhap.class);
-            List results = cr.list();
+            donNhapList = cr.list();
             tx.commit();
-            return  results;
+            return  donNhapList;
         } catch (HibernateException e) {
             if (tx != null)
                 tx.rollback();
@@ -111,6 +112,6 @@ public class DonNhapDaoImpl implements DonNhapDao {
         } finally {
             session.close();
         }
-        return  null;
+        return  donNhapList;
     }
 }

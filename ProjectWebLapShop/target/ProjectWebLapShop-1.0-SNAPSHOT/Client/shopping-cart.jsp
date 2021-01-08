@@ -5,8 +5,11 @@
   Time: 10:18 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<META HTTP-EQUIV="Content-language" CONTENT="vi">--%>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -78,8 +81,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a hre="${url}/index.jsp">Home</a></li>
-                    <li class="${url}/active">Shopping Cart</li>
+                    <li><a hre="${url}/home.jsp">Home</a></li>
+                    <li class="active">Shopping Cart</li>
                 </ul>
             </div>
         </div>
@@ -90,7 +93,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <form action="${pageContext.request.contextPath}/ThanhToanController">
+                    <form action="#">
                         <div class="table-content table-responsive">
                             <table class="table">
                                 <thead>
@@ -104,56 +107,55 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <c:if test="${not empty sessionScope.gioHangInfoSet}">
                                     <c:forEach items="${sessionScope.gioHangInfoSet}" var="gioHangInfo">
                                 <tr>
                                     <td class="li-product-remove">
-                                        <a href="${pageContext.request.contextPath}/GioHangInfoRemoveController?MaSP=${gioHangInfo.hangHoa.maSP}">
+                                        <a href="${pageContext.request.contextPath}/GioHangInfoRemoveController?maSP=${gioHangInfo.hangHoa.maSP}">
                                         <i class="fa fa-times"></i></a></td>
 
-                                    <td class="li-product-thumbnail"><a href="#"> <img src="data:image/jpg;base64,${gioHangInfo.hangHoa.hinh}}" alt="product image"></a></td>
-                                    <td class="li-product-name"><a href="#">
+                                    <td class="li-product-thumbnail">
+                                        <a href="${pageContext.request.contextPath}/HangHoaChiTietController?maSP=${gioHangInfo.hangHoa.maSP}">
+                                            <img  src="data:image/jpg;base64,${gioHangInfo.hangHoa.base64Image}"  alt="product image"/>
+                                        </a>
+                                    </td>
+                                    <td class="li-product-name"><a href="${pageContext.request.contextPath}/HangHoaChiTietController?maSP=${gioHangInfo.hangHoa.maSP}">
                                         <c:out value = "${gioHangInfo.hangHoa.tenSP}"/>
                                         </a></td>
-                                    <td class="li-product-price"><span class="amount">
-                                        <c:out value = "${gioHangInfo.hangHoa.giaBan}"/>
+                                    <td class="li-product-price">
+                                        <span class="amount">
+                                          <fmt:setLocale value="vi_VN"/>
+                                            <fmt:formatNumber value="${gioHangInfo.hangHoa.giaBan}" type="currency"/>
                                         </span></td>
 
-                                    <td class="quantity">
-                                        <label>Quantity</label>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="${gioHangInfo.soLuong}" type="text">
-<%--                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>--%>
-<%--                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>--%>
-                                        </div>
-                                    </td>
+                                    <td class="li-product-name">
+                                        <a href="${pageContext.request.contextPath}/HangHoaChiTietController?maSP=${gioHangInfo.hangHoa.maSP}">
+                                        <c:out value = "${gioHangInfo.soLuong}"/>
+                                    </a></td>
+
+
+
                                     <td class="product-subtotal"><span class="amount">
-                                        <c:out value = "${gioHangInfo.hangHoa.giaBan* gioHangInfo.soLuong}"/>
+                                          <fmt:setLocale value="vi_VN"/>
+                                                <fmt:formatNumber value ="${gioHangInfo.hangHoa.giaBan* gioHangInfo.soLuong}" type="currency"/>
                                         </span></td>
                                 </tr>
                                 </c:forEach>
+                                </c:if>
                                 </tbody>
                             </table>
                         </div>
-<%--                        <div class="row">--%>
-<%--                            <div class="col-md-5 ml-auto">--%>
-<%--                                <div class="cart-page-total">--%>
-<%--                                    <h2>Voucher</h2>--%>
-<%--                                    <ul>--%>
-<%--                                        <li>Subtotal <span>$130.00</span></li>--%>
-<%--                                        <li>Total <span>$130.00</span></li>--%>
-<%--                                    </ul>--%>
-<%--                                    <a href="checkout.jsp">Proceed to checkout</a>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
 
                         <div class="row">
                             <div class="col-md-5 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
                                     <ul>
-<%--                                        <li>Subtotal <span>$130.00</span></li>--%>
-                                        <li>Total <span> <c:out value = "${sessionScope.gioHang.tongTien}"/></span></li>
+                                        <li>Total
+                                            <span>
+                                                <fmt:setLocale value="vi_VN"/>
+                                                <fmt:formatNumber value="${sessionScope.gioHang.tongTien}" type="currency"/>
+                                        </span></li>
                                     </ul>
                                     <a href="${url}/checkout.jsp">Proceed to checkout</a>
                                 </div>

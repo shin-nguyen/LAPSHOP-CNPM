@@ -13,7 +13,7 @@ public class BinhLuanId  implements Serializable {
     private  TaiKhoan TaiKhoan;
 
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     public HangHoa getHangHoa() {
         return HangHoa;
     }
@@ -21,7 +21,7 @@ public class BinhLuanId  implements Serializable {
         this.HangHoa = hangHoa;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     public TaiKhoan getTaiKhoan() {
         return TaiKhoan;
     }
@@ -40,7 +40,7 @@ public class BinhLuanId  implements Serializable {
         if (!(o instanceof BinhLuanId)) return false;
         BinhLuanId that = (BinhLuanId) o;
         return Objects.equals(getTaiKhoan().getMaTK(), that.getTaiKhoan().getMaTK())&&
-                Objects.equals(getHangHoa().getMaSP(), getHangHoa().getMaSP());
+                Objects.equals(getHangHoa().getMaSP(), that.getHangHoa().getMaSP());
     }
 
 

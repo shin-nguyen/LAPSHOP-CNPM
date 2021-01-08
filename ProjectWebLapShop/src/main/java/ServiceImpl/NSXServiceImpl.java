@@ -17,11 +17,9 @@ public class NSXServiceImpl implements NSXService {
 
     @Override
     public void edit(NSX nsx) {
-        NSX nsxCu = nsxDao.get(nsx.getMaNSX());
-        nsxCu.setTenNSX(nsx.getTenNSX());
-        nsxCu.setDiaChi(nsx.getDiaChi());
 
-        nsxDao.edit(nsxCu);
+
+        nsxDao.edit(nsx);
     }
 
     @Override

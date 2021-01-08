@@ -13,5 +13,6 @@ public interface GioHangInfoService {
 //    void deleteAll(int MaGioHang);
     GioHangInfo get(int MaGioHang, int MaSP);
     List<GioHangInfo> get(int MaGioHang);
+    public Boolean checkTonTaiSP(int MaSP,int MaTK);
 
 }
